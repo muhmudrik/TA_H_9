@@ -1,0 +1,12 @@
+package apap.tk.SIRekrutmenH9.service;
+
+import apap.tk.SIRekrutmenH9.model.LowonganModel;
+
+import java.util.List;
+
+public interface LowonganService {
+
+    List<LowonganModel> getLowonganList();
+
+    LowonganModel getLowonganById(Integer id);
+}
