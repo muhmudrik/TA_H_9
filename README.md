@@ -13,9 +13,9 @@ Repository Tugas Akhir mata kuliah Arsitektur dan Pemrograman Aplikasi Perusahaa
 ### Tahap 1 Tugas Akhir
 
 | NPM         | Nama Lengkap            | Fitur yang akan diselesaikan |
-| ----------- | ----------------------- | ---------------------------- |
+| ----------- | ----------------------- | :--------------------------: |
 | 1806191585  | Sulthan Zahran Sunata   |                              |
-| 1806190935  | Muhammad Mudrik         |                              |
+| 1806190935  | Muhammad Mudrik         | 9                            |
 | 1806235706  | Aisyah Amyra Izra       |                              |
 | 1806185380  | Kamila Alifia Imanuddin |                              |
 | 1806185342  | Ferdinand Hanif Faozi   |                              |
@@ -25,9 +25,9 @@ Repository Tugas Akhir mata kuliah Arsitektur dan Pemrograman Aplikasi Perusahaa
 ### Tahap 2 Tugas Akhir
 
 | NPM         | Nama Lengkap            | Fitur yang akan diselesaikan |
-| ----------- | ----------------------- | ---------------------------- |
+| ----------- | ----------------------- | :--------------------------: |
 | 1806191585  | Sulthan Zahran Sunata   |                              |
-| 1806190935  | Muhammad Mudrik         |                              |
+| 1806190935  | Muhammad Mudrik         | 11                           |
 | 1806235706  | Aisyah Amyra Izra       |                              |
 | 1806185380  | Kamila Alifia Imanuddin |                              |
 | 1806185342  | Ferdinand Hanif Faozi   |                              |
@@ -37,9 +37,9 @@ Repository Tugas Akhir mata kuliah Arsitektur dan Pemrograman Aplikasi Perusahaa
 ### Tahap 3 Tugas Akhir
 
 | NPM         | Nama Lengkap            | Fitur yang akan diselesaikan |
-| ----------- | ----------------------- | ---------------------------- |
+| ----------- | ----------------------- | :--------------------------: |
 | 1806191585  | Sulthan Zahran Sunata   |                              |
-| 1806190935  | Muhammad Mudrik         |                              |
+| 1806190935  | Muhammad Mudrik         | 10                           |
 | 1806235706  | Aisyah Amyra Izra       |                              |
 | 1806185380  | Kamila Alifia Imanuddin |                              |
 | 1806185342  | Ferdinand Hanif Faozi   |                              |
