@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="http://thymeleaf.org" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+
+<header th:replace="fragments/fragment :: navbar('Home')"></header>
+<br><br>
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="col-lg-5 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                <div class="row">
+                    <div style="margin-left: 5%; margin-top: 4%" class="col-md-10">
+                        <h2 th:text=" 'Halo, ' + ${#httpServletRequest.remoteUser} + '!'" style="color: #FFC400"></h2>
+                        <h1>Selamat Datang di Sistem Informasi Rekrutmen</h1>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 order-1 order-lg-2 hero-img">
+                <img style="margin-left: 10%;" src="https://i.ibb.co/r2nYy7d/4205684-removebg-preview.png" alt="4205684-removebg-preview" border="0">
+<!--                <img th:src="@{/photo/4205684-removebg-preview.png}" class="img-fluid animated" alt="">-->
+            </div>
+        </div>
+    </div>
+</section>
+<br><br><br>
+</body>
+
+</html>

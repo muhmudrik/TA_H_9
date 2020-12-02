@@ -1,16 +1,19 @@
 package apap.tk.SIRekrutmenH9.service;
 
 import apap.tk.SIRekrutmenH9.model.LowonganModel;
+import apap.tk.SIRekrutmenH9.repository.LowonganDB;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
+@Service
+@Transactional
 public class LowonganServiceImpl implements LowonganService {
     @Autowired
-    private LowonganDb lowonganDb;
+    private LowonganDB lowonganDb;
 
     @Override
-    public Optional<LowonganModel> getLowonganById(Integer id) {
-        return lowonganDb.findById(id).get();
+    public LowonganModel ubahLowongan(LowonganModel lowongan) {
+
     }
 }
