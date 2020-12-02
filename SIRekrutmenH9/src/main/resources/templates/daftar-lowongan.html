@@ -14,7 +14,6 @@
 <table class="table">
     <thead>
     <tr>
-        <th>No</th>
         <th>Kode Lowongan</th>
         <th>Divisi</th>
         <th>Posisi</th>
@@ -24,14 +23,30 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="lowongan, iterationStatus : ${listLowongan}">
-        <td th:text="${iterationStatus.count}"></td>
+    <tr th:if="${roleUser == 1 || roleUser == 2}" th:each="lowongan, iterationStatus : ${listLowongan}">
         <td th:text="${lowongan.kodeLowongan}"></td>
         <td th:text="${lowongan.divisi}"></td>
         <td th:text="${lowongan.posisi}"></td>
         <td th:text="${lowongan.jumlah}"></td>
         <td th:text="${lowongan.jenisLowongan.nama}"></td>
         <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
+    </tr>
+    <tr th:if="${roleUser == 5}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        <div th:if="${lowongan.user.id == uuidStaffRekrutmen}">
+            <td th:text="${lowongan.kodeLowongan}"></td>
+            <td th:text="${lowongan.divisi}"></td>
+            <td th:text="${lowongan.posisi}"></td>
+            <td th:text="${lowongan.jumlah}"></td>
+            <td th:text="${lowongan.jenisLowongan.nama}"></td>
+            <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
+        </div>
+    </tr>
+    <tr th:if="${roleUser == 7}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        <td th:text="${lowongan.kodeLowongan}"></td>
+        <td th:text="${lowongan.divisi}"></td>
+        <td th:text="${lowongan.posisi}"></td>
+        <td th:text="${lowongan.jumlah}"></td>
+        <td th:text="${lowongan.jenisLowongan.nama}"></td>
         <td><a th:href="@{/pelamar/buat/}">Melamar</a></td>
     </tr>
     </tbody>

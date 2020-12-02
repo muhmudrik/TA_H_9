@@ -1,8 +1,5 @@
 package apap.tk.SIRekrutmenH9.security;
 
-<<<<<<< HEAD
-public class WebSecurityConfig {
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,6 +51,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
 
-
->>>>>>> 756b9cfbaad20c8775ebf026d582a2248fe2e0d6
 }
