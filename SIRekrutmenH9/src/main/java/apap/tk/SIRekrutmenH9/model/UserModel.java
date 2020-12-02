@@ -65,4 +65,5 @@ public class UserModel implements Serializable {
     public void setRole(RoleModel role) {
         this.role = role;
     }
+
 }

@@ -1,6 +1,5 @@
 package apap.tk.SIRekrutmenH9.controller;
 
-
 import apap.tk.SIRekrutmenH9.model.UserModel;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
