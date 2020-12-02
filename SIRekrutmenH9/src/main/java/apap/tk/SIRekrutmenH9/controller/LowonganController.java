@@ -45,7 +45,7 @@ public class LowonganController {
 
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Integer id) {
-        LowonganModel lowongan = lowonganService.getLowonganById(id).get();
+        LowonganModel lowongan = lowonganService.getLowonganById(id);
         model.addAttribute("lowongan", lowongan);
         return "form-ubah-lowongan";
     }
