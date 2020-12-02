@@ -27,7 +27,6 @@ public class PelamarModel implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uuid_user", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     UserModel uuidUser;
     
     @Id
@@ -40,7 +39,7 @@ public class PelamarModel implements Serializable {
     @Column(name = "nama")
     String nama;
 
-    @NotNull
+
     @Size(max = 20)
     @Column(name = "no_telepon")
     String noTelepon;

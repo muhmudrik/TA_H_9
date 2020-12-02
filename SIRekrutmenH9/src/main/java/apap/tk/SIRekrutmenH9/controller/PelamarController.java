@@ -3,6 +3,7 @@ package apap.tk.SIRekrutmenH9.controller;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +14,10 @@ import apap.tk.SIRekrutmenH9.service.PelamarService;
 import apap.tk.SIRekrutmenH9.service.RoleService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RequestMapping(value = "/pelamar")
@@ -32,30 +33,31 @@ public class PelamarController {
     private UserService userService;
 
     @GetMapping(value = "/buat")
-    public String getFormBuatPelamar(Model model) {
+    public String addPelamarForm(Model model) {
+        model.addAttribute("msg", "Peringatan: Username yang didaftarkan tidak dapat diganti kembali");
         return "form-pelamar";
     }
 
-    @PostMapping(value = "/buat/")
-    public String addPelamar(
+    @PostMapping(value = "/buat")
+    public String addPelamarSubmit(
         @RequestParam("username") String username,
         @RequestParam("password") String password,
         @RequestParam("nama") String nama,
         @RequestParam("no_telepon") String noTelepon,
         @RequestParam("tempat_lahir") String tempatLahir,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") 
-            @RequestParam("tanggal_lahir") Date tanggalLahir,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam("tanggal_lahir") Date tanggalLahir,
         @RequestParam("alamat") String alamat,
         Model model
     ) {
-        UserModel user = new UserModel();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setRole(roleService.findAll().get(6));
-        userService.addUser(user);
-
+        UserModel userBaru = new UserModel();
         PelamarModel pelamar = new PelamarModel();
-        pelamar.setUuidUser(user);
+
+        userBaru.setUsername(username);
+        userBaru.setPassword(password);
+        userBaru.setRole(roleService.findAll().get(6));
+        userService.addUser(userBaru);
+
+        pelamar.setUuidUser(userBaru);
         pelamar.setNama(nama);
         pelamar.setNoTelepon(noTelepon);
         pelamar.setTempatLahir(tempatLahir);
@@ -63,6 +65,40 @@ public class PelamarController {
         pelamar.setAlamat(alamat);
         pelamarService.addPelamar(pelamar);
 
-        return "hasil-add-pelamar";
+        model.addAttribute("pelamar", pelamar);
+        return "add-pelamar";
     }
+/*
+    @GetMapping(value = "/ubah/{idPelamar}")
+    public String updatePelamarForm(
+            @PathVariable(required = true) Integer idPelamar,
+            HttpServletRequest request,
+            Model model) {
+        if(pelamarService.getPelamar(idPelamar) != null){
+            //if(pelamarService.getPelamar(idPelamar).getUuidUser().getUsername() == userService.getUserByUsername(request.getRemoteUser()).getUsername()){
+            PelamarModel pelamar = pelamarService.getPelamar(idPelamar);
+            model.addAttribute("pelamar", pelamar);
+                return "form-update-pelamar";
+            //}
+            //else{
+              //  return "error/404"; }
+        } else{
+            return "error/404";
+        }
+    }
+
+    @PostMapping(value = "/ubah")
+    public String updatePelamarSubmit(
+            @ModelAttribute PelamarModel pelamar,
+            HttpServletRequest request,
+            Model model
+    ) {
+        pelamarService.addPelamar(pelamar);
+        model.addAttribute("pelamar", pelamar);
+
+        return "update-pelamar";
+    }
+
+
+ */
 }
