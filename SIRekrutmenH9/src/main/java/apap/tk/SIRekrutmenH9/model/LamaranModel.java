@@ -5,6 +5,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,6 +18,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "lamaran")
 public class LamaranModel {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @NotNull
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_lowongan", referencedColumnName = "id_lowongan")
@@ -22,7 +31,7 @@ public class LamaranModel {
 
     @NotNull
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_pelamar", referencedColumnName = "id")
+    @JoinColumn(name = "id_pelamar", referencedColumnName = "id_pelamar")
     PelamarModel pelamar;
 
     @NotNull
