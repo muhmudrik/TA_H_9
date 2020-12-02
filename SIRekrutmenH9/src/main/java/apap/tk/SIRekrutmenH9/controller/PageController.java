@@ -12,6 +12,7 @@ public class PageController {
     @Autowired
     RoleService roleService;
 
+<<<<<<< HEAD
 //    @RequestMapping("/")
 //    public String home(Model model) {
 //        model.addAttribute("listRole", roleService.findAll());
@@ -36,4 +37,17 @@ public class PageController {
     }
 
 
+=======
+    @RequestMapping("/")
+    public String home(Model model){
+        model.addAttribute("listRole", roleService.findAll());
+        return "home";
+    }
+
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+>>>>>>> 35462df8a856e37aec7637dbf1c6bb971b178303
 }
