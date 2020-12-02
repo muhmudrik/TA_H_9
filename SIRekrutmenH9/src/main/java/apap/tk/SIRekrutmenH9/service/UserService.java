@@ -11,4 +11,7 @@ public interface UserService {
     boolean passwordChecker(String sandi);
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> bc1f0782417bde60272c71a1d00f8fbf68a5fd9e

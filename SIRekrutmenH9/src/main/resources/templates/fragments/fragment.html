@@ -20,10 +20,12 @@
 <body>
 <nav
         th:fragment="navbar(NamaPage)"
-        class="navbar navbar-expand-lg navbar-light bg-light"
+        class="navbar navbar-expand-lg
+         navbar-light bg-light"
 >
     <a class="navbar-brand font-weight-bold" style="color:dimgray" href="#">Si REKRUTMEN!</a>
     <button
+
             class="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -36,14 +38,24 @@
     </button>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto navbar navbar-default">
-<!--            <a class="nav-item nav-link active text-secondary" th:href="@{/}">-->
-<!--                Home<span class="sr-only">(current)</span>-->
-<!--            </a>-->
         </ul>
+
+
         <ul class="nav navbar-nav navbar-right">
             <a th:text="${NamaPage}" class="nav-item nav-link active text-secondary" th:href="@{/}">
                 <span class="sr-only">(current)</span>
             </a>
+        </ul>
+        <ul class="nav navbar-nav navbar-left">
+            <a class="nav-item nav-link active" th:href="@{/}">Lowongan</a>
+
+            <a class="nav-item nav-link active" th:href="@{/}">Menu</a>
+
+            <a class="nav-item nav-link active" th:href="@{/}">Lamaran</a>
+        </ul>
+
+        <ul class="navbar-nav pull-right">
+            <a class="nav-item nav-link active" th:href="@{/addUser}">Add User</a>
         </ul>
         <ul class="navbar-nav pull-right">
             <a class="nav-item nav-link active" th:href="@{/logout}">Logout</a>

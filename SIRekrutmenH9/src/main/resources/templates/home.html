@@ -17,34 +17,17 @@
         <div class="row">
             <div class="col-lg-5 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
                 <div class="row">
-                    <div class="col-md-10">
-                        <h2 th:text=" 'Halo, ' + ${#httpServletRequest.remoteUser} + '!'" style="color: darkorange"></h2>
+                    <div style="margin-left: 5%; margin-top: 4%" class="col-md-10">
+                        <h2 th:text=" 'Halo, ' + ${#httpServletRequest.remoteUser} + '!'" style="color: #FFC400"></h2>
                         <h1>Selamat Datang di Sistem Informasi Rekrutmen</h1>
                         <br>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2">
-                <div class="card">
-                    <div class="card-header">Register</div>
 
-                    <div class="card-body">
-                        <p th:text="${pesan}"></p>
-                        <form th:action="@{/user/addUser}" method="POST">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control"/>
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control">
-                            <label>Role</label>
-                            <select name="role" class="form-control">
-                                <option selected value="">-- Pilih Role --</option>
-                                <option th:each="role :${listRole}" th:value="${role.id}" th:text="${role.role}"></option>
-                            </select>
-                            <br>
-                            <button type="submit" class="btn btn btn-outline-dark">Simpan</button>
-                        </form>
-                    </div>
-                </div>
+            <div class="col-lg-7 order-1 order-lg-2 hero-img">
+                <img style="margin-left: 10%;" src="https://i.ibb.co/r2nYy7d/4205684-removebg-preview.png" alt="4205684-removebg-preview" border="0">
+<!--                <img th:src="@{/photo/4205684-removebg-preview.png}" class="img-fluid animated" alt="">-->
             </div>
         </div>
     </div>

@@ -45,39 +45,55 @@
     </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="split left">
-        <div class="centered">
-            <h2>Hello !</h2>
-<!--            <div class="row">-->
-<!--                <div class="col-md-4">-->
-                    <div>
-                        <div class="card-header">
-                            Log In
-                        </div>
+<!--    <header th:replace="fragments/fragment :: navbar('Home')"></header>-->
+    <br><br><br>
+    <section id="hero" class="d-flex align-items-center">
+        <div class="container">
+            <br><br>
+            <br><br>
+            <br><br>
+            <br><br>
+            <div class="row">
+                <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <div class="row"></div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <div class="card">
+                        <div style="color: black" class="card-header">Register</div>
                         <div class="card-body">
-                            <div th:if="${param.error}">
-                                <span style="color: red">Invalid username or password</span>
-                            </div>
+    <!--
+
+         <p th:text="${pesan}"></p>-->
                             <form th:action="@{/login}" method="POST">
+
+                                <div th:if="${param.error}">
+                                    <span style="color: red">Invalid username or password</span>
+                                </div>
+
                                 <div class="row form-group">
-                                    <label class="col-sm-4">Username:</label>
+                                    <label style="color: black" class="col-sm-4">Username:</label>
                                     <input type="text" class="col-sm-8 form-control input-sm" name="username">
                                 </div>
+
                                 <div class="row form-group">
-                                    <label class="col-sm-4">Password:</label>
+                                    <label style="color: black" class="col-sm-4">Password:</label>
                                     <input type="password" class="col-sm-8 form-control input-sm" name="password">
                                 </div>
+
                                 <div class="row form-group">
-                                    <button type="submit" class="btn btn-primary">Sign In</button>
+                                    <br>
+                                    <button style="margin-left: 16px;" type="submit" class="btn btn btn-outline-dark">Sign In</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-<!--            </div>-->
-<!--        </div>-->
-    </div>
-</div>
+                <div class="col-lg-7 order-1 order-lg-2 hero-img">
+                    <img src="https://i.ibb.co/sPXzbQW/greeting.png" style="margin-top:-62%;margin-left: -15%;" class="img-fluid animated"  alt="greeting" border="0">
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
+
