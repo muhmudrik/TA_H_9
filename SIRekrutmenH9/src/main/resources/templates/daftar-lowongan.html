@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Lowongan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<h2>Daftar Lowongan</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Kode Lowongan</th>
+        <th>Divisi</th>
+        <th>Posisi</th>
+        <th>Jumlah</th>
+        <th>Jenis Lowongan</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${roleUser == 1 || roleUser == 2}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        <td th:text="${lowongan.kodeLowongan}"></td>
+        <td th:text="${lowongan.divisi}"></td>
+        <td th:text="${lowongan.posisi}"></td>
+        <td th:text="${lowongan.jumlah}"></td>
+        <td th:text="${lowongan.jenisLowongan.nama}"></td>
+        <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
+    </tr>
+    <tr th:if="${roleUser == 5}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        <div th:if="${lowongan.user.id == uuidStaffRekrutmen}">
+            <td th:text="${lowongan.kodeLowongan}"></td>
+            <td th:text="${lowongan.divisi}"></td>
+            <td th:text="${lowongan.posisi}"></td>
+            <td th:text="${lowongan.jumlah}"></td>
+            <td th:text="${lowongan.jenisLowongan.nama}"></td>
+            <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
+        </div>
+    </tr>
+    <tr th:if="${roleUser == 7}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        <td th:text="${lowongan.kodeLowongan}"></td>
+        <td th:text="${lowongan.divisi}"></td>
+        <td th:text="${lowongan.posisi}"></td>
+        <td th:text="${lowongan.jumlah}"></td>
+        <td th:text="${lowongan.jenisLowongan.nama}"></td>
+        <td><a th:href="@{/pelamar/buat/}">Melamar</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
