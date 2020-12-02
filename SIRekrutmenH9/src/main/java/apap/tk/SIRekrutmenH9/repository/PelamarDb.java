@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import apap.tk.SIRekrutmenH9.model.PelamarModel;
 
+import java.util.Optional;
+
 @Repository
-public interface PelamarDb extends JpaRepository<PelamarModel, Long>{
-        
+public interface PelamarDb extends JpaRepository<PelamarModel, Integer>{
+    Optional<PelamarModel> findById (Integer id);
 }

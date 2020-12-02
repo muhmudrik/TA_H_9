@@ -26,6 +26,7 @@ public class LowonganServiceImpl implements LowonganService{
 
     @Override
     public LowonganModel ubahLowongan(LowonganModel lowongan) {
-
+        lowonganDB.save(lowongan);
+        return lowongan;
     }
 }

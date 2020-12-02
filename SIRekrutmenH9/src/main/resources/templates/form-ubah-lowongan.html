@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org"
-                sec="http://www.thymeleaf.org/extras/spring-security">
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Ubah Lowongan</title>
@@ -18,25 +18,38 @@
                     <h4 th:text="${pesan}"></h4>
                     <form th:action="@{/lowongan/ubahLowongan/}" method="POST">
                         <label>Id Lowongan</label>
-                        <input type="text" name="username" class="form-control"/>
+                        <input type="text" name="id_lowongan" class="form-control" disabled/>
                         <br>
                         <label>Kode Lowongan</label>
-                        <input type="password" name="password" class="form-control">
+                        <input type="text" name="kodeLowongan" class="form-control" disabled/>
                         <br>
                         <label>Divisi</label>
-                        <input type="text" name="nama" class="form-control">
+                        <input th:if="${listLamaran.size() > 0}" type="text" name="divisi" class="form-control" disabled/>
+                        <input th:unless="${listLamaran.size() > 0}" type="text" name="divisi" class="form-control"/>
                         <br>
                         <label>Posisi</label>
-                        <input type="text" name="no_telepon" class="form-control">
+                        <input th:if="${listLamaran.size() > 0}" type="text" name="posisi" class="form-control" disabled/>
+                        <input th:unless="${listLamaran.size() > 0}" type="text" name="posisi" class="form-control"/>
                         <br>
                         <label>Jenis Lowongan</label>
-                        <input type="text" name="tempat_lahir" class="form-control">
+                        <select th:if="${listLamaran.size() > 0}" th:field="*{jenisLowongan}" class="form-control" disabled/>
+                            <option value="1">Full time</option>
+                            <option value="2">Part time</option>
+                            <option value="3">Internship</option>
+                            <option value="4">Freelance</option>
+                        </select>
+                        <select th:unless="${listLamaran.size() > 0}" th:field="*{jenisLowongan}" class="form-control"/>
+                        <option value="1">Full time</option>
+                        <option value="2">Part time</option>
+                        <option value="3">Internship</option>
+                        <option value="4">Freelance</option>
+                        </select>
                         <br>
                         <label>Jumlah</label>
-                        <input type="date" name="tanggal_lahir" class="form-control">
+                        <input type="text" name="jumlah" class="form-control">
                         <br>
                         <label>Username</label>
-                        <input type="text" name="alamat" class="form-control">
+                        <input type="text" name="lowongan.getUser().getUsername()" class="form-control" disabled/>
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>

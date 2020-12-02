@@ -1,13 +1,12 @@
 package apap.tk.SIRekrutmenH9.controller;
 
-import apap.tk.SIRekrutmenH9.model.LowonganModel;
+import apap.tk.SIRekrutmenH9.model.*;
 
-import apap.tk.SIRekrutmenH9.model.PelamarModel;
+import apap.tk.SIRekrutmenH9.repository.JenisLowonganDB;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import apap.tk.SIRekrutmenH9.model.UserModel;
 import apap.tk.SIRekrutmenH9.service.LowonganService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,9 @@ public class LowonganController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JenisLowonganDB jenisLowonganDb;
 
     @RequestMapping("/lowongan/daftarLowongan")
     public String daftarLowongan(Model model){
@@ -48,10 +50,11 @@ public class LowonganController {
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Integer id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
         List<LamaranModel> listLamaran = lowongan.getListLamaran();
-        if (listLamaran.getListPelamar().size() == 0) {
+        List<JenisLowonganModel> listJenisLowongan = jenisLowonganDb.findAll();
 
-        }
         model.addAttribute("lowongan", lowongan);
+        model.addAttribute("listLamaran", listLamaran);
+        model.addAttribute("listJenisLowongan", listJenisLowongan);
         return "form-ubah-lowongan";
     }
 
