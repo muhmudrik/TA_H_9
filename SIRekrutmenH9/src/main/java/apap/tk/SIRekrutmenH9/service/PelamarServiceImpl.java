@@ -20,5 +20,14 @@ public class PelamarServiceImpl implements PelamarService {
     public void ubahInformasiPelamar(PelamarModel pelamar) {
         pelamarDb.save(pelamar);
     }
-    
+
+    @Override
+    public PelamarModel getPelamar(Long idPelamar) {
+        if(pelamarDb.findById(idPelamar).isEmpty()){
+            return pelamarDb.findById(idPelamar).get();
+        }else{
+            return null;
+        }
+    }
+
 }

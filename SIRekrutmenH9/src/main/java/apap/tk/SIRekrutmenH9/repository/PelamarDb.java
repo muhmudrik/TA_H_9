@@ -5,7 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import apap.tk.SIRekrutmenH9.model.PelamarModel;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Repository
 public interface PelamarDb extends JpaRepository<PelamarModel, Long>{
-        
 }

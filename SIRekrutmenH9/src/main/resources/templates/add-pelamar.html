@@ -10,7 +10,7 @@
     <body>
         <nav th:replace="fragments/fragment :: navbar('Sukses')"></nav>
         <div class="container-fluid">
-            <h2 th:text="'Pelamar dengan nama ' + ' berhasil ditambahkan'"></h2>
+            <h2 th:text="'Pelamar dengan nama ' + ${namaPelamar} + ' berhasil ditambahkan'"></h2>
             <a th:href="@{/}">Kembali</a>
         </div>
     </body>
