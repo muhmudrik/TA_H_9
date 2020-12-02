@@ -3,6 +3,7 @@ package apap.tk.SIRekrutmenH9.controller;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,34 +65,40 @@ public class PelamarController {
         pelamar.setAlamat(alamat);
         pelamarService.addPelamar(pelamar);
 
-        model.addAttribute("namapelamar", nama);
+        model.addAttribute("pelamar", pelamar);
         return "add-pelamar";
     }
-
+/*
     @GetMapping(value = "/ubah/{idPelamar}")
     public String updatePelamarForm(
-            @PathVariable(required = true) Long idPelamar,
+            @PathVariable(required = true) Integer idPelamar,
+            HttpServletRequest request,
             Model model) {
         if(pelamarService.getPelamar(idPelamar) != null){
-            model.addAttribute("pelamar", pelamarService.getPelamar(idPelamar));
-            return "form-update-pelamar";
-        }
-        else{
-            return "error-404";
+            //if(pelamarService.getPelamar(idPelamar).getUuidUser().getUsername() == userService.getUserByUsername(request.getRemoteUser()).getUsername()){
+            PelamarModel pelamar = pelamarService.getPelamar(idPelamar);
+            model.addAttribute("pelamar", pelamar);
+                return "form-update-pelamar";
+            //}
+            //else{
+              //  return "error/404"; }
+        } else{
+            return "error/404";
         }
     }
 
-    @RequestMapping(value = "/ubah")
+    @PostMapping(value = "/ubah")
     public String updatePelamarSubmit(
             @ModelAttribute PelamarModel pelamar,
             HttpServletRequest request,
-            ModelMap model
+            Model model
     ) {
-        pelamarService.ubahInformasiPelamar(pelamar);
-        model.clear();
+        pelamarService.addPelamar(pelamar);
         model.addAttribute("pelamar", pelamar);
 
-        return "hasil-update-pelamar";
+        return "update-pelamar";
     }
 
+
+ */
 }
