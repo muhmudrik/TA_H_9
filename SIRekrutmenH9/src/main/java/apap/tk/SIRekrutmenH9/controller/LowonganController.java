@@ -32,6 +32,7 @@ public class LowonganController {
     public String daftarLowongan(Model model){
         List<LowonganModel> listLowongan = lowonganService.getLowonganList();
         UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
         Long roleUser = userLogin.getRole().getId();
         String uuidStaffRekrutmen = "";
 
@@ -42,6 +43,7 @@ public class LowonganController {
         model.addAttribute("listLowongan", listLowongan);
         model.addAttribute("roleUser", roleUser);
         model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+
 
         return "daftar-lowongan";
     }
