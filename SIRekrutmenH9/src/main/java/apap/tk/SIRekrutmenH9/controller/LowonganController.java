@@ -6,11 +6,13 @@ import apap.tk.SIRekrutmenH9.service.LowonganService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Controller
 public class LowonganController {
     @Autowired
     private LowonganService lowonganService;
