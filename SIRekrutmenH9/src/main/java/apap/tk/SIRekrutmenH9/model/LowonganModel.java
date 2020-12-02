@@ -47,6 +47,9 @@ public class LowonganModel implements Serializable {
     @JsonIgnore
     private JenisLowonganModel jenisLowongan;
 
+    @OneToMany(mappedBy = "lowonganModel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<LamaranModel> listLamaran;
+
     public void setJenisLowongan(JenisLowonganModel jenisLowongan) {
         this.jenisLowongan = jenisLowongan;
     }
@@ -101,5 +104,9 @@ public class LowonganModel implements Serializable {
 
     public Integer getId_lowongan() {
         return id_lowongan;
+    }
+
+    public List<LamaranModel> getListLamaran() {
+        return listLamaran;
     }
 }

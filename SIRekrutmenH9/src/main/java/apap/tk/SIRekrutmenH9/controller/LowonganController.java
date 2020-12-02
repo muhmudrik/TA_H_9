@@ -2,6 +2,7 @@ package apap.tk.SIRekrutmenH9.controller;
 
 import apap.tk.SIRekrutmenH9.model.LowonganModel;
 
+import apap.tk.SIRekrutmenH9.model.PelamarModel;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,6 +47,10 @@ public class LowonganController {
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Integer id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
+        List<LamaranModel> listLamaran = lowongan.getListLamaran();
+        if (listLamaran.getListPelamar().size() == 0) {
+
+        }
         model.addAttribute("lowongan", lowongan);
         return "form-ubah-lowongan";
     }

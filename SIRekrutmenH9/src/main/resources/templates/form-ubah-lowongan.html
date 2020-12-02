@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+                sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Ubah Lowongan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Ubah Lowongan</div>
+                <div class="card-body">
+                    <h4 th:text="${pesan}"></h4>
+                    <form th:action="@{/lowongan/ubahLowongan/}" method="POST">
+                        <label>Id Lowongan</label>
+                        <input type="text" name="username" class="form-control"/>
+                        <br>
+                        <label>Kode Lowongan</label>
+                        <input type="password" name="password" class="form-control">
+                        <br>
+                        <label>Divisi</label>
+                        <input type="text" name="nama" class="form-control">
+                        <br>
+                        <label>Posisi</label>
+                        <input type="text" name="no_telepon" class="form-control">
+                        <br>
+                        <label>Jenis Lowongan</label>
+                        <input type="text" name="tempat_lahir" class="form-control">
+                        <br>
+                        <label>Jumlah</label>
+                        <input type="date" name="tanggal_lahir" class="form-control">
+                        <br>
+                        <label>Username</label>
+                        <input type="text" name="alamat" class="form-control">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
