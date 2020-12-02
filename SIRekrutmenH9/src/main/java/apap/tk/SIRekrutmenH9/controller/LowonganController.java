@@ -25,16 +25,16 @@ public class LowonganController {
         List<LowonganModel> listLowongan = lowonganService.getLowonganList();
         UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-//        Long roleUser = userLogin.getRole().getId();
-//        String uuidStaffRekrutmen = "";
-//
-//        if (roleUser == 5){
-//            uuidStaffRekrutmen = userLogin.getId();
-//        }
+        Long roleUser = userLogin.getRole().getId();
+        String uuidStaffRekrutmen = "";
+
+        if (roleUser == 5){
+            uuidStaffRekrutmen = userLogin.getId();
+        }
 
         model.addAttribute("listLowongan", listLowongan);
-//        model.addAttribute("roleUser", roleUser);
-//        model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+        model.addAttribute("roleUser", roleUser);
+        model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
 
 
         return "daftar-lowongan";
