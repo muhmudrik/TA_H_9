@@ -36,7 +36,7 @@ public class LowonganModel implements Serializable {
     private Integer jumlah;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "uuid_user", referencedColumnName = "uuid", nullable = false)
+    @JoinColumn(name = "uuid_user", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel user;
