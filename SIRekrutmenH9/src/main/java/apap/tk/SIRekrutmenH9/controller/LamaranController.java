@@ -1,6 +1,10 @@
 package apap.tk.SIRekrutmenH9.controller;
 
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,7 +27,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/lamaran")
 public class LamaranController {
@@ -39,21 +42,29 @@ public class LamaranController {
     @Autowired
     private PelamarService pelamarService;
 
-    @PostMapping(value="/daftar/{idLowongan}")
-    public String addLamaran(
-        @PathVariable(name = "idLowongan") Integer idLowongan,
-        Principal principal,
-        Model model
-    ) {
+    @PostMapping(value = "/daftar/{idLowongan}")
+    public String addLamaran(@PathVariable(name = "idLowongan") Long idLowongan, Principal principal, Model model) {
         System.out.println(principal.getName());
 
-        String username = userService.getUserByUsername(principal.getName()).getUsername();
-        PelamarModel pelamar = pelamarService.getPelamarByUsername(username);
+        PelamarModel pelamar = userService.getUserByUsername(principal.getName()).getPelamar();
         LowonganModel lowongan = lowonganService.getLowonganById(idLowongan);
-        System.out.println("ID PELAMAR: " + pelamar.getId());
+        // System.out.println("ID PELAMAR: " + pelamar.getId());
         LamaranModel lamaran = new LamaranModel();
         lamaran.setLowonganModel(lowongan);
-        return "home";
+        lamaran.setPelamarModel(pelamar);
+        lamaran.setStatus(0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateWithoutTime = new Date();
+        try {
+            dateWithoutTime = sdf.parse(sdf.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        lamaran.setTanggal_diterima(dateWithoutTime);
+        lamaranService.addLamaran(lamaran);
+        model.addAttribute("lowongan", lamaran.getLowonganModel().getKodeLowongan());
+        return "add-lamaran";
     }
     
 }

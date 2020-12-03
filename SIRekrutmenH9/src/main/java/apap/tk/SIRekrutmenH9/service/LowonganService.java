@@ -11,4 +11,5 @@ public interface LowonganService {
     LowonganModel getLowonganById(Long id);
 
     LowonganModel ubahLowongan(LowonganModel lowongan);
+
 }

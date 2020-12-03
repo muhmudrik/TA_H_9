@@ -33,19 +33,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder())
-                .withUser("kamila123").password(encoder().encode("password123"))
-                .roles("Kepala Departemen HR");
-    }
+    // @Autowired
+    // public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    //     auth.inMemoryAuthentication()
+    //             .passwordEncoder(encoder())
+    //             .withUser("kamila123").password(encoder().encode("password123"))
+    //             .roles("Kepala Departemen HR");
+    // }
 
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//    @Autowired
-//    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-//    }
+   @Autowired
+   private UserDetailsService userDetailsService;
+
+   @Autowired
+   public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+       auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+   }
 }
