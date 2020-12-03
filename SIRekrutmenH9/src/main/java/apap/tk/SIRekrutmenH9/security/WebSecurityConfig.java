@@ -20,7 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
-                .antMatchers("/lowongan/ubahLowongan/{id}").hasAnyAuthority(" Staff Rekrutmen", "Kepala Bagian", "Kepala Departemen HR")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -38,8 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.inMemoryAuthentication()
                 .passwordEncoder(encoder())
-                .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
-                .roles("USER");
+                .withUser("kamila123").password(encoder().encode("password123"))
+                .roles("Kepala Departemen HR");
     }
 
 //    @Autowired

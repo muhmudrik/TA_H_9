@@ -47,7 +47,7 @@ public class LowonganController {
     }
 
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
-    public String ubahLowonganForm(Model model, @PathVariable(value = "id") Integer id) {
+    public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
         List<LamaranModel> listLamaran = lowongan.getListLamaran();
         List<JenisLowonganModel> listJenisLowongan = jenisLowonganDb.findAll();
@@ -58,15 +58,15 @@ public class LowonganController {
         return "form-ubah-lowongan";
     }
 
-    @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.POST)
-    public String ubahLowonganSubmit(
-            @PathVariable(value = "id") Integer id,
-            @ModelAttribute LowonganModel lowongan,
-            Model model
-    ) {
+    @RequestMapping(value = "/lowongan/ubahLowongan", method = RequestMethod.POST)
+    public String ubahLowonganSubmit(@ModelAttribute LowonganModel lowongan, Model model) {
+        String userId = lowongan.getUser().getId();
+        UserModel userModel = userService.getUserById(userId);
+
+        lowongan.setUser(userModel);
+
         LowonganModel targetLowongan = lowonganService.ubahLowongan(lowongan);
         model.addAttribute("lowongan", targetLowongan);
-
         return "ubah-lowongan";
     }
 }
