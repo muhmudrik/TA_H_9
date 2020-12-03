@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LowonganDB extends JpaRepository<LowonganModel, Integer> {
-    Optional<LowonganModel> findById(Integer id);
+public interface LowonganDB extends JpaRepository<LowonganModel, Long> {
+    Optional<LowonganModel> findById(Long id);
 }
