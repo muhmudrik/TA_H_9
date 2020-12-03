@@ -10,11 +10,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+
 @Entity
 @Table(name = "lowongan")
 public class LowonganModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id_lowongan")
     private Long id_lowongan;
 

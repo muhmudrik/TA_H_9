@@ -77,5 +77,4 @@ public class UserModel implements Serializable {
     public void setPelamar(PelamarModel pelamar) {
         this.pelamar = pelamar;
     }
-
 }

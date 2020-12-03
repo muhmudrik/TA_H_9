@@ -9,7 +9,6 @@
 
 <body>
 <nav th:replace="fragments/fragment :: navbar('Daftar Lowongan')"></nav>
-
 <h2>Daftar Lowongan</h2>
 <table class="table">
     <thead>
@@ -50,11 +49,7 @@
         <td th:text="${lowongan.posisi}"></td>
         <td th:text="${lowongan.jumlah}"></td>
         <td th:text="${lowongan.jenisLowongan.nama}"></td>
-        <td>
-            <form th:action="@{/lamaran/daftar/} + ${lowongan.id_lowongan}" method="POST">
-                <button type="submit" class="submit">Melamar</button>
-            </form>
-        </td>
+        <td><a th:href="@{/pelamar/buat/}">Melamar</a></td>
     </tr>
     </tbody>
 </table>

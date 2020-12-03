@@ -44,10 +44,9 @@ public class LowonganController {
         model.addAttribute("roleUser", roleUser);
         model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
 
-
         return "daftar-lowongan";
     }
-
+  
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
