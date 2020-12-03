@@ -23,10 +23,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .antMatchers("/resep/**").hasAnyAuthority("APOTEKER")
-//                .antMatchers("/user/addUser").hasAnyAuthority("ADMIN")
-//                .antMatchers("/obat/**").hasAnyAuthority("APOTEKER")
-
                 .loginPage("/login").permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();
@@ -36,21 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(encoder())
-//                .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
-//                .roles("USER");
-//    }
-
+    
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+            auth.inMemoryAuthentication()
+                    .passwordEncoder(encoder())
+                    .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
+                    .roles("USER");
     }
-
+  
+//     @Autowired
+//     private UserDetailsService userDetailsService;
+        
+//     @Autowired
+//     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+//         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+//     }
 }

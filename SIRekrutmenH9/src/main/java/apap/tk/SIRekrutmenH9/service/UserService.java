@@ -9,5 +9,5 @@ public interface UserService {
     UserModel getUserByUsername(String username);
     boolean passwordMatch(String sandiBaru, String sandiLama);
     boolean passwordChecker(String sandi);
-
+    UserModel getUserById(String id);
 }

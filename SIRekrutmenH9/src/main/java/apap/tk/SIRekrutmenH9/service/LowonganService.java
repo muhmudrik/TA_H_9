@@ -8,5 +8,7 @@ public interface LowonganService {
 
     List<LowonganModel> getLowonganList();
 
-    LowonganModel getLowonganById(Integer id);
+    LowonganModel getLowonganById(Long id);
+
+    LowonganModel ubahLowongan(LowonganModel lowongan);
 }

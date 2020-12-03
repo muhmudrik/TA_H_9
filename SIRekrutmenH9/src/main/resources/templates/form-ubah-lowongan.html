@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Ubah Lowongan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Ubah Lowongan</div>
+                <div class="card-body">
+                    <h4 th:text="${pesan}"></h4>
+                    <form th:action="@{/lowongan/ubahLowongan}" th:object="${lowongan}" method="POST">
+                        <label>Id Lowongan</label>
+                        <input type="text" name="id_lowongan" th:value="${lowongan.id_lowongan}" class="form-control" disabled/>
+                        <input type="hidden" name="id_lowongan" th:value="${lowongan.id_lowongan}" class="form-control"/>
+                        <br>
+                        <label>Kode Lowongan</label>
+                        <input type="text" name="kodeLowongan" th:value="${lowongan.kodeLowongan}" class="form-control" disabled/>
+                        <input type="hidden" name="kodeLowongan" th:value="${lowongan.kodeLowongan}" class="form-control"/>
+                        <br>
+                        <label>Divisi</label>
+                        <input th:if="${listLamaran.size() > 0}" type="text" name="divisi" th:value="${lowongan.divisi}" class="form-control" disabled/>
+                        <input th:unless="${listLamaran.size() > 0}" type="text" name="divisi" class="form-control"/>
+                        <br>
+                        <label>Posisi</label>
+                        <input th:if="${listLamaran.size() > 0}" type="text" name="posisi" th:value="${lowongan.posisi}" class="form-control" disabled/>
+                        <input th:unless="${listLamaran.size() > 0}" type="text" name="posisi" class="form-control"/>
+                        <br>
+                        <label>Jenis Lowongan</label>
+                        <select th:if="${listLamaran.size() > 0}" th:field="*{jenisLowongan}" class="form-control" disabled/>
+                            <option th:value="${lowongan.jenisLowongan}"></option>
+                        </select>
+                        <select th:unless="${listLamaran.size() > 0}" th:field="*{jenisLowongan}" class="form-control"/>
+                        <option value="1">Full time</option>
+                        <option value="2">Part time</option>
+                        <option value="3">Internship</option>
+                        <option value="4">Freelance</option>
+                        </select>
+                        <br>
+                        <label>Jumlah</label>
+                        <input type="text" name="jumlah" class="form-control">
+                        <br>
+                        <label>Username</label>
+                        <input type="text" th:value="${lowongan.getUser().getUsername()}" class="form-control" disabled/>
+                        <input type="hidden" th:field="${lowongan.user.id}" class="form-control"/>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,10 +1,11 @@
 package apap.tk.SIRekrutmenH9.repository;
 
-import apap.tk.SIRekrutmenH9.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import apap.tk.SIRekrutmenH9.model.LamaranModel;
+
 @Repository
-public interface UserDb extends JpaRepository<UserModel, String> {
-    UserModel findByUsername(String username);
+public interface LamaranDb extends JpaRepository<LamaranModel, Long>{
+    
 }

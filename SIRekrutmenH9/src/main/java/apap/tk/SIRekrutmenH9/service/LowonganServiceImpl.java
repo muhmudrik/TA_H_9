@@ -22,7 +22,13 @@ public class LowonganServiceImpl implements LowonganService{
     }
 
     @Override
-    public LowonganModel getLowonganById(Integer id){
+    public LowonganModel getLowonganById(Long id){
         return lowonganDB.findById(id).get();
+    }
+
+    @Override
+    public LowonganModel ubahLowongan(LowonganModel lowongan) {
+        lowonganDB.save(lowongan);
+        return lowongan;
     }
 }

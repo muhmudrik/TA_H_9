@@ -9,9 +9,16 @@
 
     <body>
         <nav th:replace="fragments/fragment :: navbar('Sukses')"></nav>
+        <br>
         <div class="container-fluid">
-            <h2 th:text="'Pelamar dengan nama ' + ' berhasil ditambahkan'"></h2>
-            <a th:href="@{/}">Kembali</a>
+            <br>
+            <div class="card" style="width:50%; left: 25%; background-color: darkorange">
+                <div class="card-body">
+                    <h2 th:text="'Pelamar dengan nama ' + ${pelamar.nama} + ' berhasil ditambahkan'" style="font-weight:bold; color: white"></h2>
+                    <a th:href="@{/}" style="font-style: italic; color: white">Kembali</a>
+                </div>
+            </div>
         </div>
+
     </body>
 </html>

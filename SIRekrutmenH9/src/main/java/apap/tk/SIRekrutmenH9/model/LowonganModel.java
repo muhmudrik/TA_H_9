@@ -8,13 +8,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
+
 
 @Entity
 @Table(name = "lowongan")
 public class LowonganModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_lowongan;
+
+    @Column(name = "id_lowongan")
+    private Long id_lowongan;
 
     @NotNull
     @Size(max = 20)
@@ -47,6 +51,9 @@ public class LowonganModel implements Serializable {
     @JsonIgnore
     private JenisLowonganModel jenisLowongan;
 
+    @OneToMany(mappedBy = "lowonganModel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<LamaranModel> listLamaran;
+
     public void setJenisLowongan(JenisLowonganModel jenisLowongan) {
         this.jenisLowongan = jenisLowongan;
     }
@@ -71,7 +78,7 @@ public class LowonganModel implements Serializable {
         this.kodeLowongan = kodeLowongan;
     }
 
-    public void setId_lowongan(Integer id_lowongan) {
+    public void setId_lowongan(Long id_lowongan) {
         this.id_lowongan = id_lowongan;
     }
 
@@ -99,7 +106,11 @@ public class LowonganModel implements Serializable {
         return kodeLowongan;
     }
 
-    public Integer getId_lowongan() {
+    public Long getId_lowongan() {
         return id_lowongan;
+    }
+
+    public List<LamaranModel> getListLamaran() {
+        return listLamaran;
     }
 }
