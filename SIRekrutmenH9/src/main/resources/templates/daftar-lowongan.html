@@ -20,6 +20,7 @@
         <th>Jumlah</th>
         <th>Jenis Lowongan</th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +31,7 @@
         <td th:text="${lowongan.jumlah}"></td>
         <td th:text="${lowongan.jenisLowongan.nama}"></td>
         <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
+        <td><a th:href="@{/lowongan/ubahLowongan/} + ${lowongan.id_lowongan}">Ubah Lowongan</a></td>
     </tr>
     <tr th:if="${roleUser == 5}" th:each="lowongan, iterationStatus : ${listLowongan}">
         <div th:if="${lowongan.user.id == uuidStaffRekrutmen}">
@@ -39,6 +41,7 @@
             <td th:text="${lowongan.jumlah}"></td>
             <td th:text="${lowongan.jenisLowongan.nama}"></td>
             <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
+            <td><a th:href="@{/lowongan/ubahLowongan/} + ${lowongan.id_lowongan}">Ubah Lowongan</a></td>
         </div>
     </tr>
     <tr th:if="${roleUser == 7}" th:each="lowongan, iterationStatus : ${listLowongan}">
