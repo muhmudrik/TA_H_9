@@ -25,11 +25,11 @@ public class LamaranModel {
     @JsonIgnore
     private LowonganModel lowonganModel;
 
-//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-//    @JoinColumn(name = "id_pelamar", referencedColumnName = "id_pelamar", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonIgnore
-//    private PelamarModel pelamarModel;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "id_pelamar", referencedColumnName = "id_pelamar", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private PelamarModel pelamarModel;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -39,4 +39,44 @@ public class LamaranModel {
     @NotNull
     @Column(name = "status")
     Integer status;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LowonganModel getLowonganModel() {
+        return this.lowonganModel;
+    }
+
+    public void setLowonganModel(LowonganModel lowonganModel) {
+        this.lowonganModel = lowonganModel;
+    }
+
+    public PelamarModel getPelamarModel() {
+        return this.pelamarModel;
+    }
+
+    public void setPelamarModel(PelamarModel pelamarModel) {
+        this.pelamarModel = pelamarModel;
+    }
+
+    public Date getTanggal_diterima() {
+        return this.tanggal_diterima;
+    }
+
+    public void setTanggal_diterima(Date tanggal_diterima) {
+        this.tanggal_diterima = tanggal_diterima;
+    }
+
+    public Integer getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }
