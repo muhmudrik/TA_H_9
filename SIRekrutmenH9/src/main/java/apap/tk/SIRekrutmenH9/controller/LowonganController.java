@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import apap.tk.SIRekrutmenH9.service.LowonganService;
+import apap.tk.SIRekrutmenH9.service.LamaranService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -27,6 +31,9 @@ public class LowonganController {
 
     @Autowired
     private JenisLowonganDB jenisLowonganDb;
+
+    @Autowired
+    private LamaranService lamaranService;
 
     @RequestMapping("/lowongan/daftarLowongan")
     public String daftarLowongan(Model model){
@@ -69,5 +76,59 @@ public class LowonganController {
         LowonganModel targetLowongan = lowonganService.ubahLowongan(lowongan);
         model.addAttribute("lowongan", targetLowongan);
         return "ubah-lowongan";
+    }
+
+    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.GET)
+    public String getDetailLowongan(
+        @PathVariable(name = "id_lowongan") Long id_lowongan,
+        Model model
+    ){
+        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Long roleUser = userLogin.getRole().getId();
+
+        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+        // System.out.println(listPelamar.size());
+        // model.addAttribute("listPelamar", listPelamar);
+        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
+        model.addAttribute("roleUser", roleUser);
+        return "detail-lowongan";
+    }
+
+    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.POST)
+    public String updateStatusLamaran(
+        @PathVariable(name = "id_lowongan") Long id_lowongan,
+        @RequestParam("id") Long id,
+        // @RequestParam("lowonganModel") LowonganModel lowonganModel,
+        // @RequestParam("pelamarModel") PelamarModel pelamarModel,
+        // @RequestParam("tanggal_diterima") Date tanggal_diterima,
+        @RequestParam("status") Integer status,
+        Model model
+    ){
+        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Long roleUser = userLogin.getRole().getId();
+
+        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+        // System.out.println(listPelamar.size());
+        // model.addAttribute("listPelamar", listPelamar);
+        // lamaranService.saveLamaran(lamaran);
+        System.out.println(id);
+        LamaranModel lamaran = lamaranService.getLamaranById(id);
+        lamaran.setStatus(status);
+        if(status == 2){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateWithoutTime = new Date();
+            try {
+                dateWithoutTime = sdf.parse(sdf.format(new Date()));
+            } 
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+            lamaran.setTanggal_diterima(dateWithoutTime);
+        }
+        lamaranService.saveLamaran(lamaran);
+
+        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
+        model.addAttribute("roleUser", roleUser);
+        return "detail-lowongan";
     }
 }

@@ -57,7 +57,7 @@ public class LamaranController {
         }
         lamaran.setTanggal_diterima(dateWithoutTime);
         try {
-            lamaranService.addLamaran(lamaran);
+            lamaranService.saveLamaran(lamaran);
         } 
         catch (DataIntegrityViolationException e) {
             return "redirect:/pelamar/buat";

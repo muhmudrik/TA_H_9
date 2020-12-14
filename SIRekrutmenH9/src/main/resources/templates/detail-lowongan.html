@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detil Lowongan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar('Detail Lowongan')"></nav>
+    <h2>Detil Lowongan</h2>
+    <div th:if="${roleUser == 2 || roleUser == 5}">
+        <h3>Daftar Pelamar</h3>
+        <div class="row">
+            <div class="col-12">
+                <div class="card row justify-content-center" th:each="lamaran : ${listLamaran}">
+                    <div class="col-3">
+                        <p class="text-center" th:text="${lamaran.PelamarModel.nama}"></p>
+                    </div>
+                    <div class="col-3">
+                        <form th:action="@{/lowongan/detail/} + ${lamaran.lowonganModel.id_lowongan}" th:object="${lamaran}" method="POST">
+                            <input name="id" th:value="*{id}" hidden>
+                            <!-- <input name="lowonganModel" th:value="*{lowonganModel.}" hidden>
+                            <input name="pelamarModel" th:value="*{pelamarModel}" hidden>
+                            <input name="tanggal_diterima" th:value="*{tanggal_diterima}" hidden> -->
+                            <!-- <p th:text="*{status}"></p> -->
+                            <select id="status" name="status" class="form-control">
+                                <option th:selected="*{status==0}" value="0">Melamar</option>
+                                <option th:selected="*{status==1}" value="1">Wawancara</option>
+                                <option th:selected="*{status==2}" value="2">Diterima</option>
+                                <option th:selected="*{status==3}" value="3">Ditolak</option>
+                            </select>
+                            <button type="submit" class="btn btn-info">Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
