@@ -41,15 +41,18 @@ public class LowonganController {
         UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         Long roleUser = userLogin.getRole().getId();
-        String uuidStaffRekrutmen = "";
+        boolean stafRekrut = false;
 
         if (roleUser == 5){
-            uuidStaffRekrutmen = userLogin.getId();
+            stafRekrut = true;
         }
 
         model.addAttribute("listLowongan", listLowongan);
         model.addAttribute("roleUser", roleUser);
-        model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+        // Karna gabisa gw komen dulu
+        // model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+        model.addAttribute("stafRekrut", stafRekrut);
+
 
         return "daftar-lowongan";
     }
@@ -107,6 +110,12 @@ public class LowonganController {
         UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Long roleUser = userLogin.getRole().getId();
 
+        boolean stafRekrut = false;
+
+        if (roleUser == 5){
+            stafRekrut = true;
+        }
+
         // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
         // System.out.println(listPelamar.size());
         // model.addAttribute("listPelamar", listPelamar);
@@ -129,6 +138,7 @@ public class LowonganController {
 
         model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
         model.addAttribute("roleUser", roleUser);
+        model.addAttribute("stafRekrut", stafRekrut);
         return "detail-lowongan";
     }
 }

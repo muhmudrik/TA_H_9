@@ -24,6 +24,7 @@
     </thead>
     <tbody>
     <tr th:if="${roleUser == 1 || roleUser == 2}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        a
         <td th:text="${lowongan.kodeLowongan}"></td>
         <td th:text="${lowongan.divisi}"></td>
         <td th:text="${lowongan.posisi}"></td>
@@ -33,7 +34,7 @@
         <td><a th:href="@{/lowongan/ubahLowongan/} + ${lowongan.id_lowongan}">Ubah Lowongan</a></td>
     </tr>
     <tr th:if="${roleUser == 5}" th:each="lowongan, iterationStatus : ${listLowongan}">
-        <div th:if="${lowongan.user.id == uuidStaffRekrutmen}">
+        <div th:if="${stafRekrut}">
             <td th:text="${lowongan.kodeLowongan}"></td>
             <td th:text="${lowongan.divisi}"></td>
             <td th:text="${lowongan.posisi}"></td>
@@ -44,6 +45,7 @@
         </div>
     </tr>
     <tr th:if="${roleUser == 7}" th:each="lowongan, iterationStatus : ${listLowongan}">
+        c
         <td th:text="${lowongan.kodeLowongan}"></td>
         <td th:text="${lowongan.divisi}"></td>
         <td th:text="${lowongan.posisi}"></td>
