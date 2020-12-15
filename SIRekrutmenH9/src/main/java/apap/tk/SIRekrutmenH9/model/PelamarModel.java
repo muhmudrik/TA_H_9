@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,14 +28,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "pelamar")
 public class PelamarModel implements Serializable {
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "uuid_user", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     UserModel uuidUser;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pelamar")
+    @Column(name = "id")
     Integer id;
 
     @NotNull
