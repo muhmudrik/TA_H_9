@@ -20,9 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
-                .antMatchers("/pelamar/**").permitAll()
-                .antMatchers("/lowongan/**").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
+                .antMatchers("/pelamar/buat").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -40,20 +38,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-            auth.inMemoryAuthentication()
-                    .passwordEncoder(encoder())
-                    .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
-//                    .roles("USER");
-                    .roles("Kepala Departemen HR");
-    }
+    // @Autowired
+    // public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    //         auth.inMemoryAuthentication()
+    //                 .passwordEncoder(encoder())
+    //                 .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
+    //                 .roles("USER");
+    // }
   
-//     @Autowired
-//     private UserDetailsService userDetailsService;
-//
-//     @Autowired
-//     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-//         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-//     }
+    @Autowired
+    private UserDetailsService userDetailsService;
+        
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+    }
 }
