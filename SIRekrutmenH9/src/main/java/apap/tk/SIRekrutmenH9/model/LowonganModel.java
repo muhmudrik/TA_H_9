@@ -16,9 +16,8 @@ import java.util.List;
 public class LowonganModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(name = "id_lowongan")
-    private Long id_lowongan;
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @Size(max = 20)
@@ -39,8 +38,8 @@ public class LowonganModel implements Serializable {
     @Column(name = "jumlah", nullable = false)
     private Integer jumlah;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "uuid_user", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uuid_user", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel user;
@@ -79,7 +78,7 @@ public class LowonganModel implements Serializable {
     }
 
     public void setId_lowongan(Long id_lowongan) {
-        this.id_lowongan = id_lowongan;
+        this.id = id_lowongan;
     }
 
     public JenisLowonganModel getJenisLowongan() {
@@ -107,7 +106,7 @@ public class LowonganModel implements Serializable {
     }
 
     public Long getId_lowongan() {
-        return id_lowongan;
+        return id;
     }
 
     public List<LamaranModel> getListLamaran() {

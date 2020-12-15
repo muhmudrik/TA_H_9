@@ -20,13 +20,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/pelamar/**").permitAll()
+                .antMatchers("/lowongan/**").permitAll()
+                .antMatchers("/api/v1/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();
-
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll()
+                .and()
+                .cors()
+                .and()
+                .csrf()
+                .disable();
     }
     @Bean
     public BCryptPasswordEncoder encoder() {
@@ -38,12 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             auth.inMemoryAuthentication()
                     .passwordEncoder(encoder())
                     .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
-                    .roles("USER");
+//                    .roles("USER");
+                    .roles("Kepala Departemen HR");
     }
   
 //     @Autowired
 //     private UserDetailsService userDetailsService;
-        
+//
 //     @Autowired
 //     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
 //         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());

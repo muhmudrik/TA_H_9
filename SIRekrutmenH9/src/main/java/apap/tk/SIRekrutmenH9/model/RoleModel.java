@@ -1,6 +1,5 @@
 package apap.tk.SIRekrutmenH9.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

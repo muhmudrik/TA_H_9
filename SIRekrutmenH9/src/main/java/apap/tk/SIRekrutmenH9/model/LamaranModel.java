@@ -20,13 +20,13 @@ public class LamaranModel {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_lowongan", referencedColumnName = "id_lowongan", nullable = false)
+    @JoinColumn(name = "id_lowongan", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private LowonganModel lowonganModel;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_pelamar", referencedColumnName = "id_pelamar", nullable = false)
+    @JoinColumn(name = "id_pelamar", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private PelamarModel pelamarModel;
