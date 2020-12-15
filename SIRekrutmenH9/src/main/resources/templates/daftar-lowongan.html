@@ -50,9 +50,18 @@
         <td th:text="${lowongan.jumlah}"></td>
         <td th:text="${lowongan.jenisLowongan.nama}"></td>
         <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
-        <td><a th:href="@{/pelamar/buat/}">Melamar</a></td>
+        <td>
+            <form th:action="@{/lamaran/daftar/} + ${lowongan.id_lowongan}" method="POST">
+                <button class="btn" type="submit">
+                    Melamar
+                </button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
+<div th:if="${roleUser == 1 || roleUser == 2 || roleUser == 5}">
+    <td><a th:href="@{/lowongan/add/}">Tambah Lowongan</a></td>
+</div>
 </body>
 </html>
