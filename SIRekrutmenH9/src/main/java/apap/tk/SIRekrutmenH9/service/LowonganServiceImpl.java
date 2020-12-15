@@ -16,6 +16,10 @@ public class LowonganServiceImpl implements LowonganService{
     @Autowired
     LowonganDB lowonganDB;
 
+    public void addLowongan(LowonganModel lowongan){
+        lowonganDB.save(lowongan);
+    }
+
     @Override
     public List<LowonganModel> getLowonganList(){
         return lowonganDB.findAll();

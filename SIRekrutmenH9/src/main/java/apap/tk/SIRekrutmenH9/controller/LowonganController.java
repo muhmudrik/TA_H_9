@@ -3,6 +3,7 @@ package apap.tk.SIRekrutmenH9.controller;
 import apap.tk.SIRekrutmenH9.model.*;
 
 import apap.tk.SIRekrutmenH9.repository.JenisLowonganDB;
+import apap.tk.SIRekrutmenH9.service.JenisLowonganService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,11 +21,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 public class LowonganController {
     @Autowired
     private LowonganService lowonganService;
+
+    @Autowired
+    private JenisLowonganService jenisLowonganService;
 
     @Autowired
     private UserService userService;
@@ -35,12 +40,59 @@ public class LowonganController {
     @Autowired
     private LamaranService lamaranService;
 
+    @GetMapping("/lowongan/add")
+    public String addLowonganFormPage(Model model){
+        List<JenisLowonganModel> listJenisLowongan = jenisLowonganService.getAll();
+
+        model.addAttribute("lowongan", new LowonganModel());
+        model.addAttribute("listJenisLowongan", listJenisLowongan);
+
+        return "form-add-lowongan";
+    }
+
+    @PostMapping("/lowongan/add")
+    public String addLowonganSubmit(
+            @ModelAttribute LowonganModel lowongan,
+            Model model
+    ){
+
+        String kodeLowongan = "";
+        String posisi = lowongan.getPosisi().substring(0,2).toUpperCase();
+        String divisi = lowongan.getDivisi().substring(0,2).toUpperCase();
+        String angkaAcak = "";
+        String jenisLowonganID = lowongan.getJenisLowongan().getId().toString();
+        UserModel userLowongan = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        String angka = "0123456789";
+        Random r = new Random();
+
+        for(int i = 0; i < 2; i++){
+            angkaAcak += angka.charAt(r.nextInt(10));
+        }
+
+        kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+
+        lowongan.setKodeLowongan(kodeLowongan);
+        lowongan.setUser(userLowongan);
+
+
+        lowonganService.addLowongan(lowongan);
+        model.addAttribute("lowongan", lowongan);
+        model.addAttribute("idLowongan", lowongan.getId_lowongan());
+
+        return "add-lowongan";
+    }
+
     @RequestMapping("/lowongan/daftarLowongan")
     public String daftarLowongan(Model model){
         List<LowonganModel> listLowongan = lowonganService.getLowonganList();
         UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         Long roleUser = userLogin.getRole().getId();
+        String uuidStaffRekrutmen = "";
+        if (roleUser == 5){
+            uuidStaffRekrutmen = userLogin.getId();
+        }
         boolean stafRekrut = false;
 
         if (roleUser == 5){
@@ -50,8 +102,9 @@ public class LowonganController {
         model.addAttribute("listLowongan", listLowongan);
         model.addAttribute("roleUser", roleUser);
         // Karna gabisa gw komen dulu
-        // model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+         model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
         model.addAttribute("stafRekrut", stafRekrut);
+
 
 
         return "daftar-lowongan";
