@@ -34,6 +34,10 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private RoleModel role;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private PelamarModel pelamar;
+
     public String getId() {
         return id;
     }
@@ -65,5 +69,12 @@ public class UserModel implements Serializable {
     public void setRole(RoleModel role) {
         this.role = role;
     }
+    
+    public PelamarModel getPelamar() {
+        return this.pelamar;
+    }
 
+    public void setPelamar(PelamarModel pelamar) {
+        this.pelamar = pelamar;
+    }
 }

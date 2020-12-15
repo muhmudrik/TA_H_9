@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+
 @Entity
 @Table(name = "lowongan")
 public class LowonganModel implements Serializable {
@@ -20,7 +21,7 @@ public class LowonganModel implements Serializable {
 
     @NotNull
     @Size(max = 20)
-    @Column(name = "kode_lowongan", nullable = false)
+    @Column(name = "kode_lowongan", nullable = false, unique = true)
     private String kodeLowongan;
 
     @NotNull

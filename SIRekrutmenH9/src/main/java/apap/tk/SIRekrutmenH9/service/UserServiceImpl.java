@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
         return adaHuruf && adaAngka && min8Huruf;
     }
 
+    @Override
+    public UserModel getUserById(String id) { return userDb.findById(id).get(); }
 
 }
 
