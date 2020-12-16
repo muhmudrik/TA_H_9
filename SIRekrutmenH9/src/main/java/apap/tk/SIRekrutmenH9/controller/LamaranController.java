@@ -1,31 +1,25 @@
 package apap.tk.SIRekrutmenH9.controller;
 
 import java.security.Principal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import apap.tk.SIRekrutmenH9.model.LamaranModel;
 import apap.tk.SIRekrutmenH9.model.LowonganModel;
 import apap.tk.SIRekrutmenH9.model.PelamarModel;
-import apap.tk.SIRekrutmenH9.model.UserModel;
 import apap.tk.SIRekrutmenH9.service.LamaranService;
 import apap.tk.SIRekrutmenH9.service.LowonganService;
 import apap.tk.SIRekrutmenH9.service.PelamarService;
 import apap.tk.SIRekrutmenH9.service.UserService;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/lamaran")
@@ -62,7 +56,12 @@ public class LamaranController {
             e.printStackTrace();
         }
         lamaran.setTanggal_diterima(dateWithoutTime);
-        lamaranService.addLamaran(lamaran);
+        try {
+            lamaranService.saveLamaran(lamaran);
+        } 
+        catch (DataIntegrityViolationException e) {
+            return "redirect:/pelamar/buat";
+        }
         model.addAttribute("lowongan", lamaran.getLowonganModel().getKodeLowongan());
         return "add-lamaran";
     }

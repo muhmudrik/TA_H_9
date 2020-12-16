@@ -9,5 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface PelamarDb extends JpaRepository<PelamarModel, Integer>{
-    Optional<PelamarModel> findById (Integer id);
 }
