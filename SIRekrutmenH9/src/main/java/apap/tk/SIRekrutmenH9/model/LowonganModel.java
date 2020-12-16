@@ -20,7 +20,6 @@ public class LowonganModel implements Serializable {
     @Column(name = "id")
     private Long id;
 
-
     @NotNull
     @Size(max = 20)
     @Column(name = "kode_lowongan", nullable = false, unique = true)

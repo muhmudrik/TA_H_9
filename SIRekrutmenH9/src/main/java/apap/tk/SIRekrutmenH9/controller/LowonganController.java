@@ -109,7 +109,7 @@ public class LowonganController {
 
         return "daftar-lowongan";
     }
-  
+
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
@@ -181,7 +181,7 @@ public class LowonganController {
             Date dateWithoutTime = new Date();
             try {
                 dateWithoutTime = sdf.parse(sdf.format(new Date()));
-            } 
+            }
             catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -1,3 +1,4 @@
+/*
 package apap.tk.SIRekrutmenH9.controller;
 
 import java.security.Principal;
@@ -58,12 +59,13 @@ public class LamaranController {
         lamaran.setTanggal_diterima(dateWithoutTime);
         try {
             lamaranService.saveLamaran(lamaran);
-        } 
+        }
         catch (DataIntegrityViolationException e) {
             return "redirect:/pelamar/buat";
         }
         model.addAttribute("lowongan", lamaran.getLowonganModel().getKodeLowongan());
         return "add-lamaran";
     }
-    
+
 }
+*/
