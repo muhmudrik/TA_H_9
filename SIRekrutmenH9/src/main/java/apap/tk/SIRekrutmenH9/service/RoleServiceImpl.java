@@ -19,4 +19,11 @@ public class RoleServiceImpl implements RoleService {
         return roleDb.findAll();
     }
 
+    @Override
+    public RoleModel findRoleById(Long id) {
+        System.out.println(id);
+        return roleDb.findById(id).get();
+
+    }
+
 }

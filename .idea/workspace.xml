@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e8f622b3-635d-4b7b-b80f-03e1e4aaba07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/SIRekrutmenH9/src/main/java/apap/tk/SIRekrutmenH9/controller/LowonganController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SIRekrutmenH9/src/main/java/apap/tk/SIRekrutmenH9/controller/LowonganController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SIRekrutmenH9/src/main/java/apap/tk/SIRekrutmenH9/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/SIRekrutmenH9/src/main/java/apap/tk/SIRekrutmenH9/security/WebSecurityConfig.java" afterDir="false" />
-    </list>
+    <list default="true" id="e8f622b3-635d-4b7b-b80f-03e1e4aaba07" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,6 +38,7 @@
       <updated>1606875382523</updated>
       <workItem from="1606875383804" duration="720000" />
       <workItem from="1606919952884" duration="52000" />
+      <workItem from="1608014046900" duration="6000" />
     </task>
     <servers />
   </component>

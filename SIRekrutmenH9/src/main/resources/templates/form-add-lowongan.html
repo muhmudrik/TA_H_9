@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Lowongan</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
+<br>
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" style="color:white; font-weight: bold; background-color: darkorange">Tambah Lowongan Baru</div>
+                <div class="card-body">
+                    <div class="alert alert-warning justify-content-center alert-dismissible fade show" role="alert" th:text="${msg}">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{/lowongan/add}" th:object="${lowongan}" method="POST">
+                        <div class="row">
+                            <div class="column" style="margin-left:15px; width:45%;">
+                                <label>Divisi<strong style="color:red;">*</strong></label>
+                                <input type="text" name="divisi" class="form-control"/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="column" style="margin-left:15px; width:45%;">
+                                <label>Posisi<strong style="color:red;">*</strong></label>
+                                <input type="text" name="posisi" class="form-control"/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="column" style="margin-left:15px; margin-right:15px; width: 95%;">
+                                <label>Jenis Lowongan<strong style="color:red;">*</strong></label>
+                                <select class="form-control-sm" name="JenisLowongan">
+                                    <option th:each="jenisLowongan, iStat : ${listJenisLowongan}"
+                                            th:value="${jenisLowongan.id}"
+                                            th:text="${jenisLowongan.nama}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="column" style="margin-left:15px; width:45%;">
+                                <label>Jumlah Karyawan yang Dibutuhkan<strong style="color:red;">*</strong></label>
+                                <input type="number" name="jumlah" class="form-control"/>
+                            </div>
+                        </div>
+                        <br>
+
+                        <label style="font-size:10px;">bagian bertanda <strong style="color:red;">*</strong> wajib diisi dan tidak dapat dikosongkan</label>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+</body>
+</html>

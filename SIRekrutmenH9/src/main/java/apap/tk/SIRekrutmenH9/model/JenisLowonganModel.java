@@ -1,5 +1,9 @@
 package apap.tk.SIRekrutmenH9.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
         import javax.validation.constraints.NotNull;
         import javax.validation.constraints.Size;
@@ -17,6 +21,11 @@ public class JenisLowonganModel implements Serializable {
     @Size(max = 50)
     @Column(name = "nama", nullable = false)
     private String nama;
+
+    @OneToMany(mappedBy = "jenisLowongan", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<LowonganModel> lowongan;
 
     public void setNama(String nama) {
         this.nama = nama;
