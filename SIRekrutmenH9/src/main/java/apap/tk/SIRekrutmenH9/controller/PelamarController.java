@@ -1,7 +1,12 @@
 package apap.tk.SIRekrutmenH9.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import apap.tk.SIRekrutmenH9.model.RoleModel;
+import apap.tk.SIRekrutmenH9.repository.PelamarDb;
+import apap.tk.SIRekrutmenH9.repository.UserDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,17 +25,24 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 
-@RequestMapping(value = "/pelamar")
+
 @Controller
+@RequestMapping(value = "/pelamar")
 public class PelamarController {
     @Autowired
     private PelamarService pelamarService;
 
     @Autowired
     private RoleService roleService;
-    
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PelamarDb pelamarDb;
+
+    @Autowired
+    private UserDb userDb;
 
     @GetMapping(value = "/buat")
     public String addPelamarForm(Model model) {
@@ -54,7 +66,8 @@ public class PelamarController {
 
         userBaru.setUsername(username);
         userBaru.setPassword(password);
-        userBaru.setRole(roleService.findAll().get(6));
+        RoleModel pelamarRole = roleService.findAll().get(6);
+        userBaru.setRole(pelamarRole);
         userService.addUser(userBaru);
 
         pelamar.setUuidUser(userBaru);
@@ -65,23 +78,30 @@ public class PelamarController {
         pelamar.setAlamat(alamat);
         pelamarService.addPelamar(pelamar);
 
+        userDb.findByUsername(username).setPelamar(pelamar);
+
+        //userService.getUserByUsername(username).setPelamar(pelamar);
+
         model.addAttribute("pelamar", pelamar);
         return "add-pelamar";
     }
-/*
+
     @GetMapping(value = "/ubah/{idPelamar}")
     public String updatePelamarForm(
             @PathVariable(required = true) Integer idPelamar,
             HttpServletRequest request,
             Model model) {
         if(pelamarService.getPelamar(idPelamar) != null){
-            //if(pelamarService.getPelamar(idPelamar).getUuidUser().getUsername() == userService.getUserByUsername(request.getRemoteUser()).getUsername()){
+            if(pelamarService.getPelamar(idPelamar).getUuidUser().getUsername() == userService.getUserByUsername(request.getRemoteUser()).getUsername()){
             PelamarModel pelamar = pelamarService.getPelamar(idPelamar);
             model.addAttribute("pelamar", pelamar);
                 return "form-update-pelamar";
-            //}
-            //else{
-              //  return "error/404"; }
+            }
+            else{
+                model.addAttribute("msg", "Halaman yang anda cari tidak ditemukan");
+                return "error/404";
+
+            }
         } else{
             return "error/404";
         }
@@ -89,16 +109,25 @@ public class PelamarController {
 
     @PostMapping(value = "/ubah")
     public String updatePelamarSubmit(
-            @ModelAttribute PelamarModel pelamar,
             HttpServletRequest request,
             Model model
-    ) {
-        pelamarService.addPelamar(pelamar);
+    ) throws ParseException {
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        String username = request.getParameter("username");
+        String nama = request.getParameter("nama");
+        String noTelepon = request.getParameter("noTelepon");
+        String tempatLahir = request.getParameter("tempatLahir");
+        String alamat = request.getParameter("alamat");
+        String date = request.getParameter("tanggalLahir");
+        Date tanggalLahir = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+
+        PelamarModel pelamar = pelamarDb.findById(id).get();
+        pelamarService.ubahInformasiPelamar(pelamar, nama, noTelepon, tempatLahir, alamat, tanggalLahir);
         model.addAttribute("pelamar", pelamar);
 
         return "update-pelamar";
     }
 
 
- */
+
 }

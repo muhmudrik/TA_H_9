@@ -3,12 +3,15 @@ package apap.tk.SIRekrutmenH9.controller;
 import apap.tk.SIRekrutmenH9.model.*;
 
 import apap.tk.SIRekrutmenH9.repository.JenisLowonganDB;
+import apap.tk.SIRekrutmenH9.rest.BaseResponse;
+import apap.tk.SIRekrutmenH9.rest.PelatihanDetail;
 import apap.tk.SIRekrutmenH9.service.JenisLowonganService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import apap.tk.SIRekrutmenH9.service.LowonganService;
+import apap.tk.SIRekrutmenH9.service.PelatihanRestService;
 import apap.tk.SIRekrutmenH9.service.LamaranService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -39,6 +47,9 @@ public class LowonganController {
 
     @Autowired
     private LamaranService lamaranService;
+
+    @Autowired
+    private PelatihanRestService pelatihanRestService;
 
     @GetMapping("/lowongan/add")
     public String addLowonganFormPage(Model model){
@@ -62,19 +73,25 @@ public class LowonganController {
         String angkaAcak = "";
         String jenisLowonganID = lowongan.getJenisLowongan().getId().toString();
         UserModel userLowongan = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<LowonganModel> listLowongan = lowonganService.getLowonganList();
 
-        String angka = "0123456789";
-        Random r = new Random();
+        for(LowonganModel lowonganList : listLowongan){
+            if(kodeLowongan != "" && kodeLowongan != lowonganList.getKodeLowongan()){
+                lowongan.setKodeLowongan(kodeLowongan);
+            }
+            else{
+                String angka = "0123456789";
+                Random r = new Random();
 
-        for(int i = 0; i < 2; i++){
-            angkaAcak += angka.charAt(r.nextInt(10));
+                for(int i = 0; i < 2; i++){
+                    angkaAcak += angka.charAt(r.nextInt(10));
+                }
+
+                kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            }
         }
 
-        kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
-
-        lowongan.setKodeLowongan(kodeLowongan);
         lowongan.setUser(userLowongan);
-
 
         lowonganService.addLowongan(lowongan);
         model.addAttribute("lowongan", lowongan);
@@ -109,7 +126,7 @@ public class LowonganController {
 
         return "daftar-lowongan";
     }
-  
+
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
@@ -147,6 +164,16 @@ public class LowonganController {
         // model.addAttribute("listPelamar", listPelamar);
         model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
         model.addAttribute("roleUser", roleUser);
+
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        ldt = ldt.withHour(8);
+        ldt = ldt.withMinute(30);
+        ldt = ldt.withSecond(0);
+        Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        
+        System.out.println(out);
+
         return "detail-lowongan";
     }
 
@@ -169,11 +196,7 @@ public class LowonganController {
             stafRekrut = true;
         }
 
-        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
-        // System.out.println(listPelamar.size());
-        // model.addAttribute("listPelamar", listPelamar);
-        // lamaranService.saveLamaran(lamaran);
-        System.out.println(id);
+        // Update tanggal lamaran jadi tanggal diterima
         LamaranModel lamaran = lamaranService.getLamaranById(id);
         lamaran.setStatus(status);
         if(status == 2){
@@ -181,13 +204,62 @@ public class LowonganController {
             Date dateWithoutTime = new Date();
             try {
                 dateWithoutTime = sdf.parse(sdf.format(new Date()));
-            } 
+            }
             catch (ParseException e) {
                 e.printStackTrace();
             }
             lamaran.setTanggal_diterima(dateWithoutTime);
         }
         lamaranService.saveLamaran(lamaran);
+
+        // WebService
+        LowonganModel lowongan = lowonganService.getLowonganById(id_lowongan);
+        Integer pelamarDiterima = lamaranService.countLamaranDiterima(id_lowongan);
+        System.out.println(pelamarDiterima);
+        if (lowongan.getJumlah() == pelamarDiterima) {
+            System.out.println("Masuk");
+
+            // Create objek Pelatihan
+            PelatihanDetail latian = new PelatihanDetail();
+            // latian.setNama_pelatihan("Pelatihan "+lowongan.getKodeLowongan());
+            // latian.setDeskripsi(
+            //     "Pelatihan Onboarding " + lowongan.getDivisi() + 
+            //     " " + lowongan.getJenisLowongan() + " " + lowongan.getPosisi());
+            latian.setNama_pelatihan("Test Mockup");
+            latian.setDeskripsi("a");
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateWithoutTime = new Date();
+            try {
+                dateWithoutTime = sdf.parse(sdf.format(new Date()));
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+            LocalDate now = LocalDate.now();
+            latian.setTanggal_mulai(java.sql.Date.valueOf(now));
+            latian.setTanggal_selesai(java.sql.Date.valueOf(now.plusDays(5)));
+
+            Date in = new Date();
+            LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+            ldt = ldt.withHour(8);
+            ldt = ldt.withMinute(30);
+            ldt = ldt.withSecond(0);
+            Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+            latian.setWaktu_mulai(out);
+
+            ldt = ldt.plusDays(5);
+            ldt = ldt.withHour(15);
+            ldt = ldt.withMinute(0);
+            out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+            latian.setWaktu_selesai(out);
+
+            latian.setJenis_pelatihan(1);
+            latian.setKapasitas(lowongan.getJumlah());
+            BaseResponse<PelatihanDetail> resp = pelatihanRestService.addPelatihanBaru(latian);
+            System.out.println(resp.getStatus());
+        }
+
 
         model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
         model.addAttribute("roleUser", roleUser);

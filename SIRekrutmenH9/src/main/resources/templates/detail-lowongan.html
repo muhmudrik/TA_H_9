@@ -44,11 +44,11 @@
                             <input name="pelamarModel" th:value="*{pelamarModel}" hidden>
                             <input name="tanggal_diterima" th:value="*{tanggal_diterima}" hidden> -->
                             <!-- <p th:text="*{status == 1}"></p> -->
-                            <select th:disabled="*{status == 1}" id="status" name="status" class="form-control">
+                            <select th:disabled="*{status != 0}" id="status" name="status" class="form-control">
                                 <option th:selected="*{status==0}" value="0">Melamar</option>
                                 <option th:selected="*{status==1}" value="1">Wawancara</option>
-                                <option th:selected="*{status==2}" th:if="${status==0}" value="2">Diterima</option>
-                                <option th:selected="*{status==3}" th:if="${status==0}" value="3">Ditolak</option>
+                                <option th:selected="*{status==2}" th:if="*{status==2}" value="2">Diterima</option>
+                                <option th:selected="*{status==3}" th:if="*{status==3}" value="3">Ditolak</option>
                             </select>
                             <button th:if="*{status==0}" type="submit" class="btn btn-info">Simpan</button>
                         </form>
