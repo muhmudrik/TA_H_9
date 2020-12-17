@@ -25,19 +25,19 @@
                         <input type="hidden" th:field="*{id}" />
 
                         <label>Nama</label>
-                        <input type="text" name="nama" class="form-control" th:value="${pelamar.nama}">
+                        <input type="text" name="nama" class="form-control" th:field="${pelamar.nama}">
                         <br>
                         <label>No. Telepon</label>
-                        <input type="text" name="no_telepon" class="form-control" th:value="${pelamar.noTelepon}">
+                        <input type="text" name="no_telepon" class="form-control" th:field="${pelamar.noTelepon}">
                         <br>
                         <label>Tempat Lahir</label>
-                        <input type="text" name="tempat_lahir" class="form-control" th:value="*{tempatLahir}">
+                        <input type="text" name="tempat_lahir" class="form-control" th:field="${pelamar.tempatLahir}">
                         <br>
                         <label>Tanggal Lahir</label>
                         <input type="date" name="tanggal_lahir" class="form-control" th:field="${pelamar.tanggalLahir}">
                         <br>
                         <label>Alamat</label>
-                        <input type="text" name="alamat" class="form-control" th:value="${pelamar.alamat}">
+                        <input type="text" name="alamat" class="form-control" th:field="${pelamar.alamat}">
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
