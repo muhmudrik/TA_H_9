@@ -62,19 +62,25 @@ public class LowonganController {
         String angkaAcak = "";
         String jenisLowonganID = lowongan.getJenisLowongan().getId().toString();
         UserModel userLowongan = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<LowonganModel> listLowongan = lowonganService.getLowonganList();
 
-        String angka = "0123456789";
-        Random r = new Random();
+        for(LowonganModel lowonganList : listLowongan){
+            if(kodeLowongan != "" && kodeLowongan != lowonganList.getKodeLowongan()){
+                lowongan.setKodeLowongan(kodeLowongan);
+            }
+            else{
+                String angka = "0123456789";
+                Random r = new Random();
 
-        for(int i = 0; i < 2; i++){
-            angkaAcak += angka.charAt(r.nextInt(10));
+                for(int i = 0; i < 2; i++){
+                    angkaAcak += angka.charAt(r.nextInt(10));
+                }
+
+                kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            }
         }
 
-        kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
-
-        lowongan.setKodeLowongan(kodeLowongan);
         lowongan.setUser(userLowongan);
-
 
         lowonganService.addLowongan(lowongan);
         model.addAttribute("lowongan", lowongan);
@@ -109,7 +115,7 @@ public class LowonganController {
 
         return "daftar-lowongan";
     }
-  
+
     @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
     public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
@@ -181,7 +187,7 @@ public class LowonganController {
             Date dateWithoutTime = new Date();
             try {
                 dateWithoutTime = sdf.parse(sdf.format(new Date()));
-            } 
+            }
             catch (ParseException e) {
                 e.printStackTrace();
             }
