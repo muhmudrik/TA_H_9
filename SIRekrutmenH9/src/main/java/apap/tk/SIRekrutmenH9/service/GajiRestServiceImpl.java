@@ -6,6 +6,7 @@ import apap.tk.SIRekrutmenH9.rest.setting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -24,13 +25,7 @@ public class GajiRestServiceImpl implements GajiRestService{
     }
 
     @Override
-    public List<UserModel> retrieveListUser() {
-        List<UserModel> userList = new ArrayList<>();
-        for(UserModel user : userDb.findAll()){
-            if(user.getRole().getId() != 7){
-
-            }
-        }
-        return userList;
+    public Mono<String> getGajiAll() {
+        return this.webClient.get().uri("").retrieve().bodyToMono(String.class);
     }
 }
