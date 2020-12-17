@@ -21,7 +21,7 @@ public class PelatihanRestServiceImpl implements PelatihanRestService {
     }
 
     @Override
-    public BaseResponse addPelatihanBaru(PelatihanDetail pelatihanDetail) {
+    public BaseResponse<PelatihanDetail> addPelatihanBaru(PelatihanDetail pelatihanDetail) {
         return this.webClient
                 .post()
                 .uri("/api/v1/pelatihan/buat/")

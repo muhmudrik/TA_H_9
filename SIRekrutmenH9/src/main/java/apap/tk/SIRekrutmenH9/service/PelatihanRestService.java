@@ -4,5 +4,5 @@ import apap.tk.SIRekrutmenH9.rest.BaseResponse;
 import apap.tk.SIRekrutmenH9.rest.PelatihanDetail;
 
 public interface PelatihanRestService {
-    BaseResponse addPelatihanBaru(PelatihanDetail pelatihanDetail);
+    BaseResponse<PelatihanDetail> addPelatihanBaru(PelatihanDetail pelatihanDetail);
 }
