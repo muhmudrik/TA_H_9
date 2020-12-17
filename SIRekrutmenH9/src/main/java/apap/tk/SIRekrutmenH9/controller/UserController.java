@@ -79,29 +79,29 @@ public class UserController {
         return "redirect:/user/add";
     }
 
-    @RequestMapping(value = "/profile")
-    private String profile(Model model) throws WebClientException {
-        UserModel pengguna = userService.getUserByUsername(
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getName());
-        RoleModel jasa = roleService.findRoleById(
-                pengguna
-                        .getRole()
-                        .getId());
-        try{
-            BaseResponse bsRespone = pegawaiRestService.getPegawaiData(pengguna.getUsername());
-            PegawaiData pegawai = bsRespone.getResult();
-            model.addAttribute("isTrue", true);
-            model.addAttribute("pegawai", pegawai);
-        }catch (WebClientException webClientException){ }
-        model.addAttribute("username", pengguna.getUsername());
-        model.addAttribute("role", jasa.getRole());
-        model.addAttribute("dateTime", LocalDateTime.now());
-
-        return "profile-user";
-    }
+//    @RequestMapping(value = "/profile")
+//    private String profile(Model model) throws WebClientException {
+//        UserModel pengguna = userService.getUserByUsername(
+//                SecurityContextHolder
+//                        .getContext()
+//                        .getAuthentication()
+//                        .getName());
+//        RoleModel jasa = roleService.findRoleById(
+//                pengguna
+//                        .getRole()
+//                        .getId());
+//        try{
+//            BaseResponse bsRespone = pegawaiRestService.getPegawaiData(pengguna.getUsername());
+//            PegawaiData pegawai = bsRespone.getResult();
+//            model.addAttribute("isTrue", true);
+//            model.addAttribute("pegawai", pegawai);
+//        }catch (WebClientException webClientException){ }
+//        model.addAttribute("username", pengguna.getUsername());
+//        model.addAttribute("role", jasa.getRole());
+//        model.addAttribute("dateTime", LocalDateTime.now());
+//
+//        return "profile-user";
+//    }
 
 
 
