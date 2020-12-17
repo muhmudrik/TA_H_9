@@ -1,45 +1,30 @@
-package apap.tk.SIRekrutmenH9.model;
+package apap.tk.SIRekrutmenH9.rest;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LowonganDetail {
+    private String status;
 
-@Entity
-@Table(name = "CalonLowongan")
-public class CalonLowonganModel implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @NotNull
-    @Size(max = 20)
-    @Column(name = "divisi", nullable = false)
+    @JsonProperty("divisi")
     private String divisi;
 
-    @NotNull
-    @Size(max = 20)
-    @Column(name = "posisi", nullable = false)
+    @JsonProperty("posisi")
     private String posisi;
 
-    @NotNull
-    @Column(name = "jumlah", nullable = false)
+    @JsonProperty("jumlah")
     private Integer jumlah;
 
-    @NotNull
-    @Size(max = 20)
-    @Column(name = "username", nullable = false)
+    @JsonProperty("username")
     private String username;
 
-    @NotNull
-    @Column(name = "jenis_lowongan", nullable = false)
+    @JsonProperty("jenisLowongan")
     private Integer jenisLowongan;
 
     public Integer getJenisLowongan() {
@@ -82,11 +67,11 @@ public class CalonLowonganModel implements Serializable {
         this.divisi = divisi;
     }
 
-    public Long getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -12,7 +12,7 @@ import apap.tk.SIRekrutmenH9.service.LowonganService;
 import apap.tk.SIRekrutmenH9.service.LamaranService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -61,20 +61,26 @@ public class LowonganController {
         String divisi = lowongan.getDivisi().substring(0,2).toUpperCase();
         String angkaAcak = "";
         String jenisLowonganID = lowongan.getJenisLowongan().getId().toString();
-        UserModel userLowongan = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//        UserModel userLowongan = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<LowonganModel> listLowongan = lowonganService.getLowonganList();
 
-        String angka = "0123456789";
-        Random r = new Random();
+        for(LowonganModel lowonganList : listLowongan){
+            if(kodeLowongan != "" && kodeLowongan != lowonganList.getKodeLowongan()){
+                lowongan.setKodeLowongan(kodeLowongan);
+            }
+            else{
+                String angka = "0123456789";
+                Random r = new Random();
 
-        for(int i = 0; i < 2; i++){
-            angkaAcak += angka.charAt(r.nextInt(10));
+                for(int i = 0; i < 2; i++){
+                    angkaAcak += angka.charAt(r.nextInt(10));
+                }
+
+                kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            }
         }
 
-        kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
-
-        lowongan.setKodeLowongan(kodeLowongan);
-        lowongan.setUser(userLowongan);
-
+        lowongan.setUser(null);
 
         lowonganService.addLowongan(lowongan);
         model.addAttribute("lowongan", lowongan);
@@ -83,115 +89,115 @@ public class LowonganController {
         return "add-lowongan";
     }
 
-    @RequestMapping("/lowongan/daftarLowongan")
-    public String daftarLowongan(Model model){
-        List<LowonganModel> listLowongan = lowonganService.getLowonganList();
-        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        Long roleUser = userLogin.getRole().getId();
-        String uuidStaffRekrutmen = "";
-        if (roleUser == 5){
-            uuidStaffRekrutmen = userLogin.getId();
-        }
-        boolean stafRekrut = false;
-
-        if (roleUser == 5){
-            stafRekrut = true;
-        }
-
-        model.addAttribute("listLowongan", listLowongan);
-        model.addAttribute("roleUser", roleUser);
-        // Karna gabisa gw komen dulu
-         model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
-        model.addAttribute("stafRekrut", stafRekrut);
-
-
-
-        return "daftar-lowongan";
-    }
-
-    @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
-    public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
-        LowonganModel lowongan = lowonganService.getLowonganById(id);
-        List<LamaranModel> listLamaran = lowongan.getListLamaran();
-        List<JenisLowonganModel> listJenisLowongan = jenisLowonganDb.findAll();
-
-        model.addAttribute("lowongan", lowongan);
-        model.addAttribute("listLamaran", listLamaran);
-        model.addAttribute("listJenisLowongan", listJenisLowongan);
-        return "form-ubah-lowongan";
-    }
-
-    @RequestMapping(value = "/lowongan/ubahLowongan", method = RequestMethod.POST)
-    public String ubahLowonganSubmit(@ModelAttribute LowonganModel lowongan, Model model) {
-        String userId = lowongan.getUser().getId();
-        UserModel userModel = userService.getUserById(userId);
-
-        lowongan.setUser(userModel);
-
-        LowonganModel targetLowongan = lowonganService.ubahLowongan(lowongan);
-        model.addAttribute("lowongan", targetLowongan);
-        return "ubah-lowongan";
-    }
-
-    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.GET)
-    public String getDetailLowongan(
-        @PathVariable(name = "id_lowongan") Long id_lowongan,
-        Model model
-    ){
-        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        Long roleUser = userLogin.getRole().getId();
-
-        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
-        // System.out.println(listPelamar.size());
-        // model.addAttribute("listPelamar", listPelamar);
-        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
-        model.addAttribute("roleUser", roleUser);
-        return "detail-lowongan";
-    }
-
-    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.POST)
-    public String updateStatusLamaran(
-        @PathVariable(name = "id_lowongan") Long id_lowongan,
-        @RequestParam("id") Long id,
-        // @RequestParam("lowonganModel") LowonganModel lowonganModel,
-        // @RequestParam("pelamarModel") PelamarModel pelamarModel,
-        // @RequestParam("tanggal_diterima") Date tanggal_diterima,
-        @RequestParam("status") Integer status,
-        Model model
-    ){
-        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        Long roleUser = userLogin.getRole().getId();
-
-        boolean stafRekrut = false;
-
-        if (roleUser == 5){
-            stafRekrut = true;
-        }
-
-        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
-        // System.out.println(listPelamar.size());
-        // model.addAttribute("listPelamar", listPelamar);
-        // lamaranService.saveLamaran(lamaran);
-        System.out.println(id);
-        LamaranModel lamaran = lamaranService.getLamaranById(id);
-        lamaran.setStatus(status);
-        if(status == 2){
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date dateWithoutTime = new Date();
-            try {
-                dateWithoutTime = sdf.parse(sdf.format(new Date()));
-            }
-            catch (ParseException e) {
-                e.printStackTrace();
-            }
-            lamaran.setTanggal_diterima(dateWithoutTime);
-        }
-        lamaranService.saveLamaran(lamaran);
-
-        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
-        model.addAttribute("roleUser", roleUser);
-        model.addAttribute("stafRekrut", stafRekrut);
-        return "detail-lowongan";
-    }
+//    @RequestMapping("/lowongan/daftarLowongan")
+//    public String daftarLowongan(Model model){
+//        List<LowonganModel> listLowongan = lowonganService.getLowonganList();
+//        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//
+//        Long roleUser = userLogin.getRole().getId();
+//        String uuidStaffRekrutmen = "";
+//        if (roleUser == 5){
+//            uuidStaffRekrutmen = userLogin.getId();
+//        }
+//        boolean stafRekrut = false;
+//
+//        if (roleUser == 5){
+//            stafRekrut = true;
+//        }
+//
+//        model.addAttribute("listLowongan", listLowongan);
+//        model.addAttribute("roleUser", roleUser);
+//        // Karna gabisa gw komen dulu
+//         model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+//        model.addAttribute("stafRekrut", stafRekrut);
+//
+//
+//
+//        return "daftar-lowongan";
+//    }
+//
+//    @RequestMapping(value = "/lowongan/ubahLowongan/{id}", method = RequestMethod.GET)
+//    public String ubahLowonganForm(Model model, @PathVariable(value = "id") Long id) {
+//        LowonganModel lowongan = lowonganService.getLowonganById(id);
+//        List<LamaranModel> listLamaran = lowongan.getListLamaran();
+//        List<JenisLowonganModel> listJenisLowongan = jenisLowonganDb.findAll();
+//
+//        model.addAttribute("lowongan", lowongan);
+//        model.addAttribute("listLamaran", listLamaran);
+//        model.addAttribute("listJenisLowongan", listJenisLowongan);
+//        return "form-ubah-lowongan";
+//    }
+//
+//    @RequestMapping(value = "/lowongan/ubahLowongan", method = RequestMethod.POST)
+//    public String ubahLowonganSubmit(@ModelAttribute LowonganModel lowongan, Model model) {
+//        String userId = lowongan.getUser().getId();
+//        UserModel userModel = userService.getUserById(userId);
+//
+//        lowongan.setUser(userModel);
+//
+//        LowonganModel targetLowongan = lowonganService.ubahLowongan(lowongan);
+//        model.addAttribute("lowongan", targetLowongan);
+//        return "ubah-lowongan";
+//    }
+//
+//    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.GET)
+//    public String getDetailLowongan(
+//        @PathVariable(name = "id_lowongan") Long id_lowongan,
+//        Model model
+//    ){
+//        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//        Long roleUser = userLogin.getRole().getId();
+//
+//        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+//        // System.out.println(listPelamar.size());
+//        // model.addAttribute("listPelamar", listPelamar);
+//        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
+//        model.addAttribute("roleUser", roleUser);
+//        return "detail-lowongan";
+//    }
+//
+//    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.POST)
+//    public String updateStatusLamaran(
+//        @PathVariable(name = "id_lowongan") Long id_lowongan,
+//        @RequestParam("id") Long id,
+//        // @RequestParam("lowonganModel") LowonganModel lowonganModel,
+//        // @RequestParam("pelamarModel") PelamarModel pelamarModel,
+//        // @RequestParam("tanggal_diterima") Date tanggal_diterima,
+//        @RequestParam("status") Integer status,
+//        Model model
+//    ){
+//        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//        Long roleUser = userLogin.getRole().getId();
+//
+//        boolean stafRekrut = false;
+//
+//        if (roleUser == 5){
+//            stafRekrut = true;
+//        }
+//
+//        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+//        // System.out.println(listPelamar.size());
+//        // model.addAttribute("listPelamar", listPelamar);
+//        // lamaranService.saveLamaran(lamaran);
+//        System.out.println(id);
+//        LamaranModel lamaran = lamaranService.getLamaranById(id);
+//        lamaran.setStatus(status);
+//        if(status == 2){
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            Date dateWithoutTime = new Date();
+//            try {
+//                dateWithoutTime = sdf.parse(sdf.format(new Date()));
+//            }
+//            catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            lamaran.setTanggal_diterima(dateWithoutTime);
+//        }
+//        lamaranService.saveLamaran(lamaran);
+//
+//        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
+//        model.addAttribute("roleUser", roleUser);
+//        model.addAttribute("stafRekrut", stafRekrut);
+//        return "detail-lowongan";
+//    }
 }
