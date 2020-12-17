@@ -1,6 +1,7 @@
 package apap.tk.SIRekrutmenH9.restcontroller;
 
 import apap.tk.SIRekrutmenH9.model.LowonganModel;
+import apap.tk.SIRekrutmenH9.rest.BaseResponse;
 import apap.tk.SIRekrutmenH9.rest.LowonganDetail;
 import apap.tk.SIRekrutmenH9.service.JenisLowonganService;
 import apap.tk.SIRekrutmenH9.service.LowonganRestService;
@@ -8,7 +9,7 @@ import apap.tk.SIRekrutmenH9.service.LowonganService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,7 +35,8 @@ public class LowonganRestController {
     private LowonganService lowonganService;
 
     @PostMapping(value = "/lowongan/add")
-    private LowonganModel createLowongan(@Valid @RequestBody LowonganDetail calonLowongan, BindingResult bindingResult){
+    private BaseResponse<LowonganModel> createLowongan(@Valid @RequestBody LowonganDetail calonLowongan, BindingResult bindingResult){
+        BaseResponse<LowonganModel> response = new BaseResponse<LowonganModel>();
         if(bindingResult.hasFieldErrors()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field");
         }
@@ -75,8 +77,12 @@ public class LowonganRestController {
                 lowongan.setUser(userService.getUserByUsername(calonLowongan.getUsername()));
             }
 
+            response.setStatus(200);
+            response.setMessage("success");
+            response.setResult(lowongan);
+            lowonganRestService.createLowongan(lowongan);
 
-            return lowonganRestService.createLowongan(lowongan);
+            return response;
 
         }
     }
