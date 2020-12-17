@@ -6,9 +6,9 @@ import org.apache.catalina.User;
 public interface UserService {
     UserModel addUser (UserModel user);
     UserModel addUser2 (String username);
-//    String encrypt (String password);
+    String encrypt (String password);
     UserModel getUserByUsername(String username);
-//    boolean passwordMatch(String sandiBaru, String sandiLama);
-//    boolean passwordChecker(String sandi);
+    boolean passwordMatch(String sandiBaru, String sandiLama);
+    boolean passwordChecker(String sandi);
     UserModel getUserById(String id);
 }
