@@ -1,7 +1,7 @@
 package apap.tk.SIRekrutmenH9.restcontroller;
 
 import apap.tk.SIRekrutmenH9.rest.GajiDetail;
-import apap.tk.SIRekrutmenH9.rest.setting;
+import apap.tk.SIRekrutmenH9.rest.Setting;
 import apap.tk.SIRekrutmenH9.service.GajiRestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ public class GajiRestController {
 
     @GetMapping("/gaji")
     private String getGaji(Model model) {
-        String gajiFinderUrl = setting.gajiUrl;
+        String gajiFinderUrl = Setting.gajiUrl;
         List listGaji = restTemplate.getForObject(gajiFinderUrl, List.class);
         List<GajiDetail> gaji = new ArrayList<>();
 
