@@ -1,4 +1,3 @@
-/*
 package apap.tk.SIRekrutmenH9.controller;
 
 import java.security.Principal;
@@ -68,4 +67,3 @@ public class LamaranController {
     }
 
 }
-*/
