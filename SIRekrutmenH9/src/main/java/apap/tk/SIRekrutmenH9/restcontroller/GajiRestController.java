@@ -29,16 +29,14 @@ public class GajiRestController {
         String gajiFinderUrl = setting.gajiUrl;
         List listGaji = restTemplate.getForObject(gajiFinderUrl, List.class);
         List<GajiDetail> gaji = new ArrayList<>();
-        String jeda = "\n";
-        String header = "|Username||Lama Kerja||--Gaji--|"+ jeda;
-        String starter = "| ";
+
         for(int i = 0; i<listGaji.size(); i++){
             GajiDetail gajiDetail = new GajiDetail();
             LinkedHashMap<String, Object> gajiHash = (LinkedHashMap<String, Object>) listGaji.get(i);
             LinkedHashMap<String, Object> secondHash = (LinkedHashMap<String, Object>) gajiHash.get("gajiModel");
 
             String username = String.valueOf(gajiHash.get("username"));
-            String lamaBerkerja = String.valueOf(gajiHash.get("lamaBerkerja")) + " tahun";
+            String lamaBerkerja = gajiHash.get("lamaBerkerja") + " tahun";
             String gp = String.valueOf(secondHash.get("gajiPokok"));
             Long gajiPokok = Long.parseLong(gp);
 
@@ -47,14 +45,7 @@ public class GajiRestController {
             gajiDetail.setLamaBerkerja(lamaBerkerja);
 
             gaji.add(gajiDetail);
-
-            String newLine = starter + username +" |";
-            newLine += starter + lamaBerkerja + " |";
-            newLine += starter + gajiPokok + " |" + jeda;
-            header += newLine;
-
         }
-        //return restTemplate.getForObject(gajiFinderUrl, String.class);
         model.addAttribute("gaji", gaji);
         return "gaji";
     }
