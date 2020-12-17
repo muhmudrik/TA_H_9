@@ -3,12 +3,15 @@ package apap.tk.SIRekrutmenH9.controller;
 import apap.tk.SIRekrutmenH9.model.*;
 
 import apap.tk.SIRekrutmenH9.repository.JenisLowonganDB;
+import apap.tk.SIRekrutmenH9.rest.BaseResponse;
+import apap.tk.SIRekrutmenH9.rest.PelatihanDetail;
 import apap.tk.SIRekrutmenH9.service.JenisLowonganService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import apap.tk.SIRekrutmenH9.service.LowonganService;
+import apap.tk.SIRekrutmenH9.service.PelatihanRestService;
 import apap.tk.SIRekrutmenH9.service.LamaranService;
 import apap.tk.SIRekrutmenH9.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,9 @@ public class LowonganController {
 
     @Autowired
     private LamaranService lamaranService;
+
+    @Autowired
+    private PelatihanRestService pelatihanRestService;
 
     @GetMapping("/lowongan/add")
     public String addLowonganFormPage(Model model){
@@ -173,7 +179,7 @@ public class LowonganController {
         // System.out.println(listPelamar.size());
         // model.addAttribute("listPelamar", listPelamar);
         // lamaranService.saveLamaran(lamaran);
-        System.out.println(id);
+        // System.out.println(id);
         LamaranModel lamaran = lamaranService.getLamaranById(id);
         lamaran.setStatus(status);
         if(status == 2){
@@ -188,6 +194,27 @@ public class LowonganController {
             lamaran.setTanggal_diterima(dateWithoutTime);
         }
         lamaranService.saveLamaran(lamaran);
+
+        LowonganModel lowongan = lowonganService.getLowonganById(id_lowongan);
+        Integer pelamarDiterima = lamaranService.countLamaranDiterima(id_lowongan);
+        System.out.println(pelamarDiterima);
+        if (lowongan.getJumlah() == pelamarDiterima) {
+            System.out.println("Masuk");
+
+            // Create objek Pelatihan
+            PelatihanDetail latian = new PelatihanDetail();
+            // latian.setNama_pelatihan("Pelatihan "+lowongan.getKodeLowongan());
+            // latian.setDeskripsi(
+            //     "Pelatihan Onboarding " + lowongan.getDivisi() + 
+            //     " " + lowongan.getJenisLowongan() + " " + lowongan.getPosisi());
+            latian.setNama_pelatihan("Test Mockup");
+            latian.setDeskripsi("a");
+            latian.setJenis_pelatihan(1);
+            latian.setKapasitas(lowongan.getJumlah());
+            BaseResponse resp = pelatihanRestService.addPelatihanBaru(latian);
+            System.out.println(resp.getStatus());
+        }
+
 
         model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
         model.addAttribute("roleUser", roleUser);

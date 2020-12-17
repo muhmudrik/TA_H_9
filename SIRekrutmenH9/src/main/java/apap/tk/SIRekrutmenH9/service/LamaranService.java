@@ -15,5 +15,7 @@ public interface LamaranService {
     List<LamaranModel> getLamaranByLowongan(Long id_lowongan);
 
     LamaranModel getLamaranById(Long id_lamaran);
+
+    Integer countLamaranDiterima(Long id_lowongan);
     
 }
