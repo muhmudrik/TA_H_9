@@ -3,6 +3,7 @@ package apap.tk.SIRekrutmenH9.rest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+<<<<<<< HEAD
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -74,4 +75,11 @@ public class LowonganDetail {
     public void setStatus(String status) {
         this.status = status;
     }
+=======
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class LowonganDetail {
+    @JsonProperty("id")
+    private Integer id;
+
+>>>>>>> 2077be155002426513c93320d19918841fdd5c33
 }

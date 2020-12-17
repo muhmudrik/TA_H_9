@@ -20,6 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/user/add/**").hasAnyAuthority("Kepala Bagian", "Kepala Departemen HR")
                 .antMatchers("/pelamar/buat").permitAll()
                 .antMatchers("/lowongan/add").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian")
                 .antMatchers("/lowongan/daftarLowongan").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian", "Pelamar")
@@ -57,3 +60,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
 }
+
