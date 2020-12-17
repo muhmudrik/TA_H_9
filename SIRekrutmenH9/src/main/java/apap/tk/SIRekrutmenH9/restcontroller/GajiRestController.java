@@ -27,8 +27,10 @@ public class GajiRestController {
     @GetMapping("/gaji")
     private String getGaji(Model model) {
         String gajiFinderUrl = Setting.gajiUrl;
-        List listGaji = restTemplate.getForObject(gajiFinderUrl, List.class);
+        LinkedHashMap listGajiRest = restTemplate.getForObject(gajiFinderUrl, LinkedHashMap.class);
+        List listGaji = (List) listGajiRest.get("result");
         List<GajiDetail> gaji = new ArrayList<>();
+        Long meanGaji = Long.parseLong("0");
 
         for(int i = 0; i<listGaji.size(); i++){
             GajiDetail gajiDetail = new GajiDetail();
@@ -40,12 +42,17 @@ public class GajiRestController {
             String gp = String.valueOf(secondHash.get("gajiPokok"));
             Long gajiPokok = Long.parseLong(gp);
 
+            meanGaji += gajiPokok;
+
             gajiDetail.setUsername(username);
             gajiDetail.setGajiPokok(gajiPokok);
             gajiDetail.setLamaBerkerja(lamaBerkerja);
 
             gaji.add(gajiDetail);
         }
+
+        meanGaji = meanGaji/(Long.valueOf(listGaji.size()));
+        model.addAttribute("meanGaji", meanGaji);
         model.addAttribute("gaji", gaji);
         return "gaji";
     }
