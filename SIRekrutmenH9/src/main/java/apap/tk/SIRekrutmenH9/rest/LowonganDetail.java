@@ -3,11 +3,6 @@ package apap.tk.SIRekrutmenH9.rest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LowonganDetail {
     private String status;

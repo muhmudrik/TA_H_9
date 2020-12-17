@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface JenisLowonganService {
     List<JenisLowonganModel> getAll();
+
     JenisLowonganModel getById(Integer id);
 
 }
