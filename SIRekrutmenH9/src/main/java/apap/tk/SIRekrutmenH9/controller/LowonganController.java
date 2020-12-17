@@ -80,7 +80,7 @@ public class LowonganController {
             }
         }
 
-        lowongan.setUser(null);
+        lowongan.setUser(userLowongan);
 
         lowonganService.addLowongan(lowongan);
         model.addAttribute("lowongan", lowongan);
