@@ -2,14 +2,38 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Detil Lowongan</title>
+    <title>Detail Lowongan</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 
 <body>
     <nav th:replace="fragments/fragment :: navbar('Detail Lowongan')"></nav>
-    <h2>Detil Lowongan</h2>
+    <div>
+        <section>
+            <div class="card">
+                <div class="card-header" th:text="'Detail Lowongan ' + ${lowongan.kodeLowongan}"></div>
+                <div class="card-body">
+                    <p th:text="'Divisi             : ' + ${lowongan.divisi}"></p>
+                    <p th:text="'Posisi             : ' + ${lowongan.posisi}"></p>
+                    <p th:text="'Jenis Lowongan     : ' + ${lowongan.jenisLowongan.nama}"></p>
+                    <p th:text="'Jumlah             : ' + ${lowongan.jumlah}"></p>
+                    <p th:text="'Pembuat Lowongan   : ' + ${userBuatLowongan}"></p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="card" th:if="${roleUser != 7}">
+                <div class="card-header" th:text="'Daftar Pelamar'"></div>
+                <div class="card-body">
+                    <tr th:each="pelamar, iterationStatus : ${listPelamar}">
+                        <td th:text="${pelamar.nama}"></td>
+                    </tr>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <div th:if="${roleUser == 2 || roleUser == 5}">
         <h3>Daftar Pelamar</h3>
         <div class="row">

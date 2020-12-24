@@ -16,14 +16,13 @@ import java.util.List;
 public class LowonganModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "id")
     private Long id;
 
 
     @NotNull
     @Size(max = 20)
-    @Column(name = "kode_lowongan", nullable = false, unique = true)
+    @Column(name = "kode_lowongan", unique = true)
     private String kodeLowongan;
 
     @NotNull
