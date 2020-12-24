@@ -53,6 +53,11 @@ public class LamaranServiceImpl implements LamaranService {
         return lamaranDb.findById(id_lamaran).get();
     }
 
+    @Override
+    public Integer countLamaranDiterima(Long id_lowongan) {
+        return lamaranDb.findLamaranDiterimaLowongan(id_lowongan);
+    }
+
     
 
     
