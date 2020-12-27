@@ -35,10 +35,10 @@
     </div>
 
     <div th:if="${roleUser == 2 || roleUser == 5}">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="width: 100vw;">
             <h5 class="text-center">Ubah Status Pelamar</h5>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" style="width: 100vw;">
             <div class="col-4">
                 <div class="card row justify-content-center" th:each="lamaran : ${listLamaran}">
                     <div class="col-12">
@@ -52,13 +52,17 @@
                             <input name="pelamarModel" th:value="*{pelamarModel}" hidden>
                             <input name="tanggal_diterima" th:value="*{tanggal_diterima}" hidden> -->
                             <!-- <p th:text="*{status == 1}"></p> -->
-                            <select th:disabled="*{status == 0}" id="status" name="status" class="form-control">
-                                <option th:selected="*{status==0}" th:if="*{status==0}" value="0">Melamar</option>
-                                <option th:selected="*{status==1}" value="1">Wawancara</option>
-                                <option th:selected="*{status==2}" value="2">Diterima</option>
-                                <option th:selected="*{status==3}" value="3">Ditolak</option>
-                            </select>
-                            <button th:if="*{status!=0}" type="submit" class="btn btn-info">Simpan</button>
+                            <div>
+                                <select th:disabled="*{status == 0 || status == 2 || status == 3}" id="status" name="status" class="form-control">
+                                    <option th:selected="*{status==0}" th:if="*{status==0}" value="0">Melamar</option>
+                                    <option th:selected="*{status==1}" value="1">Wawancara</option>
+                                    <option th:selected="*{status==2}" value="2">Diterima</option>
+                                    <option th:selected="*{status==3}" value="3">Ditolak</option>
+                                </select>
+                                <input hidden th:value="*{status}">
+                                <button th:if="*{status==0 || status==1}" type="submit" class="btn btn-info">Simpan</button>
+                                <button th:if="*{status==3}" type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                            </div>
                         </form>
                     </div>
 

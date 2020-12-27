@@ -16,6 +16,8 @@ public interface LamaranService {
 
     LamaranModel getLamaranById(Long id_lamaran);
 
+    void deleteLamaranById(Long id_lamaran);
+
     Integer countLamaranDiterima(Long id_lowongan);
     
 }

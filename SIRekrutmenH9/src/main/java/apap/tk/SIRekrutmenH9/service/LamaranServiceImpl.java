@@ -58,6 +58,12 @@ public class LamaranServiceImpl implements LamaranService {
         return lamaranDb.findLamaranDiterimaLowongan(id_lowongan);
     }
 
+    @Override
+    public void deleteLamaranById(Long id_lamaran) {
+        lamaranDb.deleteById(id_lamaran);
+
+    }
+
     
 
     
