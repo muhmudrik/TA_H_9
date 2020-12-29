@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name="user")
+@Table(name="user_rekrut")
 public class UserModel implements Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")
