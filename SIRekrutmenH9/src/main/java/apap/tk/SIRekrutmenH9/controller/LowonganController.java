@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -74,21 +75,23 @@ public class LowonganController {
         String jenisLowonganID = lowongan.getJenisLowongan().getId().toString();
         UserModel userLowongan = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<LowonganModel> listLowongan = lowonganService.getLowonganList();
+        List<String> listKodeLowongan = new ArrayList<>();
 
-        for(LowonganModel lowonganList : listLowongan){
-            if(kodeLowongan != "" && kodeLowongan != lowonganList.getKodeLowongan()){
-                lowongan.setKodeLowongan(kodeLowongan);
+        if(listLowongan != null){
+            for(LowonganModel lowonganList : listLowongan){
+                listKodeLowongan.add(lowonganList.getKodeLowongan());
             }
-            else{
-                String angka = "0123456789";
-                Random r = new Random();
+        }
 
-                for(int i = 0; i < 2; i++){
-                    angkaAcak += angka.charAt(r.nextInt(10));
-                }
+        while (kodeLowongan == "" || listKodeLowongan.contains(kodeLowongan)){
+            String angka = "0123456789";
+            Random r = new Random();
 
-                kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            for(int i = 0; i < 2; i++){
+                angkaAcak += angka.charAt(r.nextInt(10));
             }
+
+            kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
         }
 
         lowongan.setUser(userLowongan);
@@ -119,10 +122,8 @@ public class LowonganController {
         model.addAttribute("listLowongan", listLowongan);
         model.addAttribute("roleUser", roleUser);
         // Karna gabisa gw komen dulu
-         model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
+        model.addAttribute("uuidStaffRekrutmen", uuidStaffRekrutmen);
         model.addAttribute("stafRekrut", stafRekrut);
-
-
 
         return "daftar-lowongan";
     }
@@ -158,22 +159,19 @@ public class LowonganController {
     ){
         UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Long roleUser = userLogin.getRole().getId();
+        LowonganModel lowongan = lowonganService.getLowonganById(id_lowongan);
+        List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+        String userBuatLowongan = userService.getUserById(lowongan.getUser().getId()).getUsername();
 
         // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
         // System.out.println(listPelamar.size());
         // model.addAttribute("listPelamar", listPelamar);
+
         model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
         model.addAttribute("roleUser", roleUser);
-
-        Date in = new Date();
-        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-        ldt = ldt.withHour(8);
-        ldt = ldt.withMinute(30);
-        ldt = ldt.withSecond(0);
-        Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-        
-        System.out.println(out);
-
+        model.addAttribute("listPelamar", listPelamar);
+        model.addAttribute("lowongan", lowongan);
+        model.addAttribute("userBuatLowongan", userBuatLowongan);
         return "detail-lowongan";
     }
 
@@ -214,6 +212,8 @@ public class LowonganController {
 
         // WebService
         LowonganModel lowongan = lowonganService.getLowonganById(id_lowongan);
+        String userBuatLowongan = userService.getUserById(lowongan.getUser().getId()).getUsername();
+        List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
         Integer pelamarDiterima = lamaranService.countLamaranDiterima(id_lowongan);
         System.out.println(pelamarDiterima);
         if (lowongan.getJumlah() == pelamarDiterima) {
@@ -260,10 +260,38 @@ public class LowonganController {
             System.out.println(resp.getStatus());
         }
 
-
+        model.addAttribute("lowongan", lowongan);
+        model.addAttribute("userBuatLowongan", userBuatLowongan);
+        model.addAttribute("listPelamar", listPelamar);
         model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
         model.addAttribute("roleUser", roleUser);
         model.addAttribute("stafRekrut", stafRekrut);
+        return "detail-lowongan";
+    }
+
+    @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.POST, params = {"hapus"})
+    public String hapusLamaranDitolak(
+        @PathVariable(name = "id_lowongan") Long id_lowongan,
+        @RequestParam("id") Long id,
+        Model model
+    ){
+        UserModel userLogin = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Long roleUser = userLogin.getRole().getId();
+        LowonganModel lowongan = lowonganService.getLowonganById(id_lowongan);
+        List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+        String userBuatLowongan = userService.getUserById(lowongan.getUser().getId()).getUsername();
+
+        // List<PelamarModel> listPelamar = lamaranService.getPelamarFromLamaranList(id_lowongan);
+        // System.out.println(listPelamar.size());
+        // model.addAttribute("listPelamar", listPelamar);
+
+        lamaranService.deleteLamaranById(id);
+        
+        model.addAttribute("listLamaran", lamaranService.getLamaranByLowongan(id_lowongan));
+        model.addAttribute("roleUser", roleUser);
+        model.addAttribute("listPelamar", listPelamar);
+        model.addAttribute("lowongan", lowongan);
+        model.addAttribute("userBuatLowongan", userBuatLowongan);
         return "detail-lowongan";
     }
 }
