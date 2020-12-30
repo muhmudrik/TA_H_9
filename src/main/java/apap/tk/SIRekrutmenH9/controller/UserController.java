@@ -35,7 +35,11 @@ public class UserController {
 
     @RequestMapping("/add")
     public String addUserPage(Model model) {
-        model.addAttribute("listRole", roleService.findAll());
+//         model.addAttribute("listRole", roleService.findAll());
+//         return "add-user";
+        List<RoleModel> listRole = roleService.findAll();
+        listRole.remove(6);
+        model.addAttribute("listRole", listRole);
         return "add-user";
     }
 
