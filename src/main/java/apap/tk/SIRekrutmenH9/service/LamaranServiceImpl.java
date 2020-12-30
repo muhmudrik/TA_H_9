@@ -24,7 +24,7 @@ public class LamaranServiceImpl implements LamaranService {
 
      @Override
      public List<PelamarModel> getPelamarFromLamaranList (Long id_lowongan) {
-         try{
+        //  try{
              List<LamaranModel> hasilCari = lamaranDb.findByLowonganModel_id_lowongan(id_lowongan);
              List<PelamarModel> listPelamar = new ArrayList<PelamarModel>();
     
@@ -32,10 +32,10 @@ public class LamaranServiceImpl implements LamaranService {
                  listPelamar.add(lamaran.getPelamarModel());
              }
              return listPelamar;
-         }
-         catch(Exception e){
-             return new ArrayList<PelamarModel>();
-         }
+        //  }
+        //  catch(Exception e){
+        //      return new ArrayList<PelamarModel>();
+        //  }
 
      }
 
