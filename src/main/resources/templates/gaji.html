@@ -9,13 +9,13 @@
 
 
 <body>
-<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
+<nav th:replace="fragments/fragment :: navbar('Tabel Gaji')"></nav>
 <div class="container-fluid">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header" style="color:white; font-weight: bold; background-color: darkorange">List Gaji
-                <h6 th:text="'Rata-rata Gaji: ' + ${meanGaji}"></h6></div>
+                <div class="card-header" style="color:white; font-weight: bold; background-color: darkorange"><h4>List Gaji Karyawan Lama</h4>
+                <h6 th:text="'Rata-rata Gaji: ' + ${meanGaji}" style="font-weight: normal;"></h6></div>
                 <div class="card-body">
                     <table class="table">
                         <thead>

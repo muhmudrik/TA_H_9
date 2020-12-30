@@ -27,22 +27,33 @@
                         <br>
                         <label>Divisi</label>
                         <input th:if="${listLamaran.size() > 0}" type="text" name="divisi" th:value="${lowongan.divisi}" class="form-control" disabled/>
-                        <input th:unless="${listLamaran.size() > 0}" type="text" name="divisi" class="form-control"/>
+                        <input th:if="${listLamaran.size() > 0}" type="hidden" name="divisi" th:value="${lowongan.divisi}" class="form-control"/>
+                        <input th:unless="${listLamaran.size() > 0}" type="text" name="divisi" th:value="${lowongan.divisi}" class="form-control"/>
                         <br>
                         <label>Posisi</label>
                         <input th:if="${listLamaran.size() > 0}" type="text" name="posisi" th:value="${lowongan.posisi}" class="form-control" disabled/>
-                        <input th:unless="${listLamaran.size() > 0}" type="text" name="posisi" class="form-control"/>
+                        <input th:if="${listLamaran.size() > 0}" type="hidden" name="posisi" th:value="${lowongan.posisi}" class="form-control"/>
+                        <input th:unless="${listLamaran.size() > 0}" type="text" name="posisi" th:value="${lowongan.posisi}" class="form-control"/>
                         <br>
                         <label>Jenis Lowongan</label>
-                        <select th:if="${listLamaran.size() > 0}" th:field="*{jenisLowongan}" class="form-control" disabled/>
-                            <option th:value="${lowongan.jenisLowongan}"></option>
-                        </select>
-                        <select th:unless="${listLamaran.size() > 0}" th:field="*{jenisLowongan}" class="form-control"/>
-                        <option value="1">Full time</option>
-                        <option value="2">Part time</option>
-                        <option value="3">Internship</option>
-                        <option value="4">Freelance</option>
-                        </select>
+                        <div th:if="${listLamaran.size() > 0}">
+                            <select class="form-control" name="jenisLowongan" disabled/>
+                                <option th:value="${lowongan.jenisLowongan}"
+                                        th:text="${lowongan.jenisLowongan.nama}">
+                                </option>
+                            </select>
+                        </div>
+                        <div th:if="${listLamaran.size() > 0}">
+                            <input type="hidden" name="jenisLowongan" th:value="${lowongan.jenisLowongan.id}" class="form-control"/>
+                        </div>
+                        <div th:unless="${listLamaran.size() > 0}">
+                            <select class="form-control" name="jenisLowongan"/>
+                                <option th:each="jl, iStat : ${listJenisLowongan}"
+                                        th:value="${jl.id}"
+                                        th:text="${jl.nama}">
+                                </option>
+                            </select>
+                        </div>
                         <br>
                         <label>Jumlah</label>
                         <input type="text" name="jumlah" class="form-control">

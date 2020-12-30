@@ -77,23 +77,33 @@ public class LowonganController {
         List<LowonganModel> listLowongan = lowonganService.getLowonganList();
         List<String> listKodeLowongan = new ArrayList<>();
 
-        if(listLowongan != null){
-            for(LowonganModel lowonganList : listLowongan){
-                listKodeLowongan.add(lowonganList.getKodeLowongan());
-            }
-        }
+        if(listLowongan.size() > 0) {
 
-        while (kodeLowongan == "" || listKodeLowongan.contains(kodeLowongan)){
+            for (LowonganModel lowonganList : listLowongan) {
+                if (kodeLowongan != "" && kodeLowongan != lowonganList.getKodeLowongan()) {
+                    lowongan.setKodeLowongan(kodeLowongan);
+                } else {
+                    String angka = "0123456789";
+                    Random r = new Random();
+
+                    for (int i = 0; i < 2; i++) {
+                        angkaAcak += angka.charAt(r.nextInt(10));
+                    }
+
+                    kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+                    lowongan.setKodeLowongan(kodeLowongan);
+                }
+            }
+        } else {
             String angka = "0123456789";
             Random r = new Random();
 
-            for(int i = 0; i < 2; i++){
+            for (int i = 0; i < 2; i++) {
                 angkaAcak += angka.charAt(r.nextInt(10));
             }
-
             kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            lowongan.setKodeLowongan(kodeLowongan);
         }
-
         lowongan.setUser(userLowongan);
 
         lowonganService.addLowongan(lowongan);
@@ -133,10 +143,13 @@ public class LowonganController {
         LowonganModel lowongan = lowonganService.getLowonganById(id);
         List<LamaranModel> listLamaran = lowongan.getListLamaran();
         List<JenisLowonganModel> listJenisLowongan = jenisLowonganDb.findAll();
+        Integer jenisLowonganID = lowongan.getJenisLowongan().getId();
+        JenisLowonganModel jenisLowongan = jenisLowonganService.getById(jenisLowonganID);
 
         model.addAttribute("lowongan", lowongan);
         model.addAttribute("listLamaran", listLamaran);
         model.addAttribute("listJenisLowongan", listJenisLowongan);
+        model.addAttribute("jenisLowongan", jenisLowongan);
         return "form-ubah-lowongan";
     }
 
@@ -149,6 +162,7 @@ public class LowonganController {
 
         LowonganModel targetLowongan = lowonganService.ubahLowongan(lowongan);
         model.addAttribute("lowongan", targetLowongan);
+
         return "ubah-lowongan";
     }
 
@@ -254,10 +268,15 @@ public class LowonganController {
             out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
             latian.setWaktu_selesai(out);
 
-            latian.setJenis_pelatihan(1);
             latian.setKapasitas(lowongan.getJumlah());
             BaseResponse<PelatihanDetail> resp = pelatihanRestService.addPelatihanBaru(latian);
             System.out.println(resp.getStatus());
+            if(resp.getStatus()==200){
+                model.addAttribute("suksesPelatihan", "Sukses membuat pelatihan secara otomatis");
+            }
+            else{
+                model.addAttribute("gagalPelatihan", "Gagal Membuat pelatihan secara otomatis. Silahkan hubungi tim IT.");
+            }
         }
 
         model.addAttribute("lowongan", lowongan);
@@ -267,6 +286,32 @@ public class LowonganController {
         model.addAttribute("roleUser", roleUser);
         model.addAttribute("stafRekrut", stafRekrut);
         return "detail-lowongan";
+    }
+
+    @RequestMapping("/lowongan/hapus/{id}")
+    public String hapusLowongan(
+            @PathVariable(value = "id") Long id,
+            Model model)
+    {
+        LowonganModel lowongan = lowonganService.getLowonganById(id);
+        model.addAttribute("lowongan", lowongan);
+        List<LamaranModel> listLamaran = lowongan.getListLamaran();
+
+        boolean isDeletable = true;
+
+        for(LamaranModel lamaran : listLamaran){
+            Integer tempStatus = lamaran.getStatus();
+            if(tempStatus <= 1){
+                isDeletable = false;
+            }
+        }
+
+        if(isDeletable){
+            lowonganService.deleteLowongan(id);
+            return "delete-lowongan";
+        }else{
+            return "delete-lowongan-restricted";
+        }
     }
 
     @RequestMapping(value = "/lowongan/detail/{id_lowongan}", method = RequestMethod.POST, params = {"hapus"})
