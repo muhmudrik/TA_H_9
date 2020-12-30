@@ -14,13 +14,8 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header" style="color:white; font-weight: bold; background-color: darkorange">Tambah Pelamar Baru</div>
+                <div class="card-header" style="color:white; font-weight: bold; background-color: darkorange">Ubah Pelamar</div>
                 <div class="card-body">
-                    <div class="alert alert-warning justify-content-center alert-dismissible fade show" role="alert" th:text="${msg}">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <form th:action="@{/pelamar/ubah}" th:object="${pelamar}" method="POST">
                         <input type="hidden" th:field="*{id}" />
 

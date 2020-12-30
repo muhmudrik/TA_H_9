@@ -35,4 +35,10 @@ public class LowonganServiceImpl implements LowonganService{
         lowonganDB.save(lowongan);
         return lowongan;
     }
+
+    @Override
+    public void deleteLowongan(Long id) {
+        LowonganModel lowongan = getLowonganById(id);
+        lowonganDB.delete(lowongan);
+    }
 }

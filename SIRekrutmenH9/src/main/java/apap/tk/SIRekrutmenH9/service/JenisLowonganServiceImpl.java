@@ -19,12 +19,10 @@ public class JenisLowonganServiceImpl implements JenisLowonganService{
     public List<JenisLowonganModel> getAll(){
         return jenisLowonganDB.findAll();
     }
-<<<<<<< HEAD
 
     @Override
     public JenisLowonganModel getById(Integer id) {
         return jenisLowonganDB.getOne(id);
     }
-=======
->>>>>>> 2077be155002426513c93320d19918841fdd5c33
+
 }

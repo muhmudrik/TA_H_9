@@ -3,6 +3,7 @@ package apap.tk.SIRekrutmenH9.controller;
 import apap.tk.SIRekrutmenH9.model.RoleModel;
 import apap.tk.SIRekrutmenH9.model.UserModel;
 import apap.tk.SIRekrutmenH9.rest.BaseResponse;
+import apap.tk.SIRekrutmenH9.rest.BaseResponse2;
 import apap.tk.SIRekrutmenH9.rest.PegawaiData;
 import apap.tk.SIRekrutmenH9.service.PegawaiRestService;
 import apap.tk.SIRekrutmenH9.service.RoleService;
@@ -79,6 +80,7 @@ public class UserController {
         return "redirect:/user/add";
     }
 
+
     @RequestMapping(value = "/profile")
     private String profile(Model model) throws WebClientException {
         UserModel pengguna = userService.getUserByUsername(
@@ -91,7 +93,7 @@ public class UserController {
                         .getRole()
                         .getId());
         try{
-            BaseResponse bsRespone = pegawaiRestService.getPegawaiData(pengguna.getUsername());
+            BaseResponse2 bsRespone = pegawaiRestService.getPegawaiData(pengguna.getUsername());
             PegawaiData pegawai = bsRespone.getResult();
             model.addAttribute("isTrue", true);
             model.addAttribute("pegawai", pegawai);
@@ -102,6 +104,7 @@ public class UserController {
 
         return "profile-user";
     }
+
 
 
 

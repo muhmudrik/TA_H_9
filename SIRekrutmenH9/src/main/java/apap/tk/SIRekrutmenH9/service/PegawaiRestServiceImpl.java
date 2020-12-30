@@ -1,6 +1,7 @@
 package apap.tk.SIRekrutmenH9.service;
 
 import apap.tk.SIRekrutmenH9.rest.BaseResponse;
+import apap.tk.SIRekrutmenH9.rest.BaseResponse2;
 import apap.tk.SIRekrutmenH9.rest.PegawaiData;
 import apap.tk.SIRekrutmenH9.rest.Setting;
 import org.springframework.http.MediaType;
@@ -20,25 +21,25 @@ public class PegawaiRestServiceImpl implements PegawaiRestService{
     }
 
     @Override
-    public BaseResponse addPegawaiData(PegawaiData pegawai) {
+    public BaseResponse2 addPegawaiData(PegawaiData pegawai) {
         return this.webClient
                 .post()
                 .uri("/api/v1/pegawai")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(pegawai)
                 .retrieve()
-                .bodyToMono(BaseResponse.class)
+                .bodyToMono(BaseResponse2.class)
                 .block();
     }
 
 
     @Override
-    public BaseResponse getPegawaiData(String username) {
+    public BaseResponse2 getPegawaiData(String username) {
         return this.webClient
                 .get()
                 .uri("/api/v1/pegawai/" + username)
                 .retrieve()
-                .bodyToMono(BaseResponse.class)
+                .bodyToMono(BaseResponse2.class)
                 .block();
     }
 }

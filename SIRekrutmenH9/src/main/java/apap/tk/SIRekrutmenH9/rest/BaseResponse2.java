@@ -2,10 +2,10 @@ package apap.tk.SIRekrutmenH9.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BaseResponse<T>{
+public class BaseResponse2{
     private int status;
     private String message;
-    private T result;
+    private PegawaiData result;
 
     // mengembalikan status
     public int getStatus() {
@@ -18,7 +18,7 @@ public class BaseResponse<T>{
     }
 
     // mengembalikan hasil
-    public T getResult() {
+    public PegawaiData getResult() {
         return result;
     }
 
@@ -33,7 +33,7 @@ public class BaseResponse<T>{
     }
 
     // mengembalikan hasil untuk di set
-    public void setResult(T result) {
+    public void setResult(PegawaiData result) {
         this.result = result;
     }
 }
