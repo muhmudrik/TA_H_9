@@ -24,14 +24,19 @@ public class LamaranServiceImpl implements LamaranService {
 
      @Override
      public List<PelamarModel> getPelamarFromLamaranList (Long id_lowongan) {
-         List<LamaranModel> hasilCari = lamaranDb.findByLowonganModel_id_lowongan(id_lowongan);
-         List<PelamarModel> listPelamar = new ArrayList<PelamarModel>();
-
-         for (LamaranModel lamaran : hasilCari){
-             listPelamar.add(lamaran.getPelamarModel());
+         try{
+             List<LamaranModel> hasilCari = lamaranDb.findByLowonganModel_id_lowongan(id_lowongan);
+             List<PelamarModel> listPelamar = new ArrayList<PelamarModel>();
+    
+             for (LamaranModel lamaran : hasilCari){
+                 listPelamar.add(lamaran.getPelamarModel());
+             }
+             return listPelamar;
+         }
+         catch(Exception e){
+             return new ArrayList<PelamarModel>();
          }
 
-         return listPelamar;
      }
 
     // @Override
