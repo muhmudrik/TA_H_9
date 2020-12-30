@@ -2,53 +2,83 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Detil Lowongan</title>
+    <title>Detail Lowongan</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 
 <body>
     <nav th:replace="fragments/fragment :: navbar('Detail Lowongan')"></nav>
-    <h2>Detil Lowongan</h2>
+    <div>
+        <section>
+            <div class="card">
+                <div class="card-header" th:text="'Detail Lowongan ' + ${lowongan.kodeLowongan}"></div>
+                <div class="card-body">
+                    <p th:text="'Divisi             : ' + ${lowongan.divisi}"></p>
+                    <p th:text="'Posisi             : ' + ${lowongan.posisi}"></p>
+                    <p th:text="'Jenis Lowongan     : ' + ${lowongan.jenisLowongan.nama}"></p>
+                    <p th:text="'Jumlah             : ' + ${lowongan.jumlah}"></p>
+                    <p th:text="'Pembuat Lowongan   : ' + ${userBuatLowongan}"></p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="card" th:if="${roleUser != 7}">
+                <div class="card-header" th:text="'Daftar Pelamar'"></div>
+                <div class="card-body">
+                    <tr th:each="pelamar, iterationStatus : ${listPelamar}">
+                        <td th:text="${pelamar.nama} + ', '"></td>
+                    </tr>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <div th:if="${roleUser == 2 || roleUser == 5}">
-        <h3>Daftar Pelamar</h3>
-        <div class="row">
-            <div class="col-12">
+        <div class="row justify-content-center" style="width: 100vw;">
+            <h5 class="text-center">Ubah Status Pelamar</h5>
+        </div>
+        <div class="row justify-content-center" style="width: 100vw;">
+            <div class="col-4">
                 <div class="card row justify-content-center" th:each="lamaran : ${listLamaran}">
-                    <div class="col-3">
-                        <p class="text-center" th:text="${lamaran.PelamarModel.nama}"></p>
+                    <div class="col-12">
+                        <p class="text-center" th:text="'Nama Pelamar: ' + ${lamaran.PelamarModel.nama}"></p>
                     </div>
                     <!-- Role Kepala Bagian -->
-                    <div class="col-3" th:if="${roleUser == 2}">
+                    <div class="col-12" th:if="${roleUser == 2}">
                         <form th:action="@{/lowongan/detail/} + ${lamaran.lowonganModel.id_lowongan}" th:object="${lamaran}" method="POST">
                             <input name="id" th:value="*{id}" hidden>
                             <!-- <input name="lowonganModel" th:value="*{lowonganModel.}" hidden>
                             <input name="pelamarModel" th:value="*{pelamarModel}" hidden>
                             <input name="tanggal_diterima" th:value="*{tanggal_diterima}" hidden> -->
                             <!-- <p th:text="*{status == 1}"></p> -->
-                            <select th:disabled="*{status == 0}" id="status" name="status" class="form-control">
-                                <option th:selected="*{status==0}" th:if="*{status==0}" value="0">Melamar</option>
-                                <option th:selected="*{status==1}" value="1">Wawancara</option>
-                                <option th:selected="*{status==2}" value="2">Diterima</option>
-                                <option th:selected="*{status==3}" value="3">Ditolak</option>
-                            </select>
-                            <button th:if="*{status!=0}" type="submit" class="btn btn-info">Simpan</button>
+                            <div>
+                                <select th:disabled="*{status == 0 || status == 2 || status == 3}" id="status" name="status" class="form-control">
+                                    <option th:selected="*{status==0}" th:if="*{status==0}" value="0">Melamar</option>
+                                    <option th:selected="*{status==1}" value="1">Wawancara</option>
+                                    <option th:selected="*{status==2}" value="2">Diterima</option>
+                                    <option th:selected="*{status==3}" value="3">Ditolak</option>
+                                </select>
+                                <input hidden th:value="*{status}">
+                                <button th:if="*{status==0 || status==1}" type="submit" class="btn btn-info">Simpan</button>
+                                <button th:if="*{status==3}" type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                            </div>
                         </form>
                     </div>
 
                     <!-- Role Staf Rekrutmen -->
-                    <div class="col-3" th:if="${roleUser == 5}">
+                    <div class="col-12" th:if="${roleUser == 5}">
                         <form th:action="@{/lowongan/detail/} + ${lamaran.lowonganModel.id_lowongan}" th:object="${lamaran}" method="POST">
                             <input name="id" th:value="*{id}" hidden>
                             <!-- <input name="lowonganModel" th:value="*{lowonganModel.}" hidden>
                             <input name="pelamarModel" th:value="*{pelamarModel}" hidden>
                             <input name="tanggal_diterima" th:value="*{tanggal_diterima}" hidden> -->
                             <!-- <p th:text="*{status == 1}"></p> -->
-                            <select th:disabled="*{status == 1}" id="status" name="status" class="form-control">
+                            <select th:disabled="*{status != 0}" id="status" name="status" class="form-control">
                                 <option th:selected="*{status==0}" value="0">Melamar</option>
                                 <option th:selected="*{status==1}" value="1">Wawancara</option>
-                                <option th:selected="*{status==2}" th:if="${status==0}" value="2">Diterima</option>
-                                <option th:selected="*{status==3}" th:if="${status==0}" value="3">Ditolak</option>
+                                <option th:selected="*{status==2}" th:if="*{status==2}" value="2">Diterima</option>
+                                <option th:selected="*{status==3}" th:if="*{status==3}" value="3">Ditolak</option>
                             </select>
                             <button th:if="*{status==0}" type="submit" class="btn btn-info">Simpan</button>
                         </form>

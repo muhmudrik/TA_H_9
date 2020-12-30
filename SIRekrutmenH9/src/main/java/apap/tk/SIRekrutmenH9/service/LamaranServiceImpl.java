@@ -1,7 +1,6 @@
 package apap.tk.SIRekrutmenH9.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +22,17 @@ public class LamaranServiceImpl implements LamaranService {
         lamaranDb.save(lamaran);
     }
 
-    // @Override
-    // public List<PelamarModel> getPelamarFromLamaranList (Long id_lowongan) {
-    //     List<LamaranModel> hasilCari = lamaranDb.findByLowonganModel_id_lowongan(id_lowongan);
-    //     System.out.println("HASIL CARI: " + hasilCari.size());
-    //     return getPelamarByLowongan(hasilCari);
-    // }
+     @Override
+     public List<PelamarModel> getPelamarFromLamaranList (Long id_lowongan) {
+         List<LamaranModel> hasilCari = lamaranDb.findByLowonganModel_id_lowongan(id_lowongan);
+         List<PelamarModel> listPelamar = new ArrayList<PelamarModel>();
+
+         for (LamaranModel lamaran : hasilCari){
+             listPelamar.add(lamaran.getPelamarModel());
+         }
+
+         return listPelamar;
+     }
 
     // @Override
     // public List<PelamarModel> getPelamarByLowongan (List<LamaranModel> listLamaran) {
@@ -47,6 +51,17 @@ public class LamaranServiceImpl implements LamaranService {
     @Override
     public LamaranModel getLamaranById(Long id_lamaran) {
         return lamaranDb.findById(id_lamaran).get();
+    }
+
+    @Override
+    public Integer countLamaranDiterima(Long id_lowongan) {
+        return lamaranDb.findLamaranDiterimaLowongan(id_lowongan);
+    }
+
+    @Override
+    public void deleteLamaranById(Long id_lamaran) {
+        lamaranDb.deleteById(id_lamaran);
+
     }
 
     

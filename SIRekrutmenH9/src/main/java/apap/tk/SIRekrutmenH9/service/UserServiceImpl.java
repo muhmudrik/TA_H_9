@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
         user.setUsername(username);
         user.setPassword(pass);
-        RoleModel role = roleDb.findById(Long.valueOf(6)).get();
+        RoleModel role = roleDb.findById(Long.valueOf(4)).get();
         user.setRole(role);
         return userDb.save(user);
     }

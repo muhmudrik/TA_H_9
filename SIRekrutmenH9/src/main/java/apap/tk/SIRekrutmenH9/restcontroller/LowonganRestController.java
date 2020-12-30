@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -50,23 +51,26 @@ public class LowonganRestController {
             String angkaAcak = "";
             String jenisLowonganID = calonLowongan.getJenisLowongan().toString();
             List<LowonganModel> listLowongan = lowonganService.getLowonganList();
+            List<String> listKodeLowongan = new ArrayList<>();
 
-            for(LowonganModel lowonganList : listLowongan){
-                if(kodeLowongan != "" && kodeLowongan != lowonganList.getKodeLowongan()){
-                    lowongan.setKodeLowongan(kodeLowongan);
-                }
-                else{
-                    String angka = "0123456789";
-                    Random r = new Random();
-
-                    for(int i = 0; i < 2; i++){
-                        angkaAcak += angka.charAt(r.nextInt(10));
-                    }
-
-                    kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            if(listLowongan != null){
+                for(LowonganModel lowonganList : listLowongan){
+                    listKodeLowongan.add(lowonganList.getKodeLowongan());
                 }
             }
 
+            while (kodeLowongan == "" || listKodeLowongan.contains(kodeLowongan)){
+                String angka = "0123456789";
+                Random r = new Random();
+
+                for(int i = 0; i < 2; i++){
+                    angkaAcak += angka.charAt(r.nextInt(10));
+                }
+
+                kodeLowongan = divisi + "-" + posisi + "-" + jenisLowonganID + "-" + angkaAcak;
+            }
+
+            lowongan.setKodeLowongan(kodeLowongan);
             lowongan.setDivisi(calonLowongan.getDivisi());
             lowongan.setPosisi(calonLowongan.getPosisi());
             lowongan.setJumlah(calonLowongan.getJumlah());

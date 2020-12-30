@@ -1,6 +1,7 @@
 package apap.tk.SIRekrutmenH9.restcontroller;
 
 import apap.tk.SIRekrutmenH9.rest.BaseResponse;
+import apap.tk.SIRekrutmenH9.rest.BaseResponse2;
 import apap.tk.SIRekrutmenH9.rest.PegawaiData;
 import apap.tk.SIRekrutmenH9.service.PegawaiRestService;
 import apap.tk.SIRekrutmenH9.service.UserService;
@@ -19,13 +20,13 @@ public class PegawaiRestController {
     // mengambil data pengguna dari SiPegawai
     @GetMapping(value = "/pegawai/{username}")
     // mengambil menggunakan username pengguna
-    private BaseResponse getPegawaiData(@PathVariable("username") String username){
+    private BaseResponse2 getPegawaiData(@PathVariable("username") String username){
         return pegawaiRestService.getPegawaiData(username);
     }
 
     // menambah pengguna dari SiPegawai
     @PostMapping(value = "/pegawai")
-    private BaseResponse addPegawaiData(@ModelAttribute PegawaiData pegawai){
+    private BaseResponse2 addPegawaiData(@ModelAttribute PegawaiData pegawai){
         return pegawaiRestService.addPegawaiData(pegawai);
     }
 

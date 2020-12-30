@@ -27,18 +27,23 @@ public class GajiRestController {
     @GetMapping("/gaji")
     private String getGaji(Model model) {
         String gajiFinderUrl = Setting.gajiUrl;
-        List listGaji = restTemplate.getForObject(gajiFinderUrl, List.class);
+        List listGajiRest = restTemplate.getForObject(gajiFinderUrl, List.class);
+        //List listGaji = (List) listGajiRest.get("result");
         List<GajiDetail> gaji = new ArrayList<>();
+        Long meanGaji = Long.parseLong("0");
 
-        for(int i = 0; i<listGaji.size(); i++){
+        for(int i = 0; i<listGajiRest.size(); i++){
             GajiDetail gajiDetail = new GajiDetail();
-            LinkedHashMap<String, Object> gajiHash = (LinkedHashMap<String, Object>) listGaji.get(i);
-            LinkedHashMap<String, Object> secondHash = (LinkedHashMap<String, Object>) gajiHash.get("gajiModel");
+            LinkedHashMap<String, Object> firstHash = (LinkedHashMap<String, Object>) listGajiRest.get(i);
+            LinkedHashMap<String, Object> secondHash = (LinkedHashMap<String, Object>) firstHash.get("gajiModel");
+            //LinkedHashMap<String, Object> secondHash = (LinkedHashMap<String, Object>) gajiHash.get("gajiModel");
 
-            String username = String.valueOf(gajiHash.get("username"));
-            String lamaBerkerja = gajiHash.get("lamaBerkerja") + " tahun";
+            String username = String.valueOf(firstHash.get("username"));
+            String lamaBerkerja = firstHash.get("lamaBerkerja") + " tahun";
             String gp = String.valueOf(secondHash.get("gajiPokok"));
             Long gajiPokok = Long.parseLong(gp);
+
+            meanGaji += gajiPokok;
 
             gajiDetail.setUsername(username);
             gajiDetail.setGajiPokok(gajiPokok);
@@ -46,6 +51,9 @@ public class GajiRestController {
 
             gaji.add(gajiDetail);
         }
+
+        meanGaji = meanGaji/(Long.valueOf(listGajiRest.size()));
+        model.addAttribute("meanGaji", meanGaji);
         model.addAttribute("gaji", gaji);
         return "gaji";
     }
