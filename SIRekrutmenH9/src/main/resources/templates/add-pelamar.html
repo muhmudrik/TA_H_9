@@ -8,13 +8,14 @@
 </head>
 
     <body>
-        <nav th:replace="fragments/fragment :: navbar('Sukses')"></nav>
+        <nav th:replace="fragments/fragment :: navbar('Sukses Tambah Pelamar')"></nav>
         <br>
         <div class="container-fluid">
             <br>
             <div class="card" style="width:50%; left: 25%; background-color: darkorange">
                 <div class="card-body">
                     <h2 th:text="'Pelamar dengan nama ' + ${pelamar.nama} + ' berhasil ditambahkan'" style="font-weight:bold; color: white"></h2>
+                    <h5>Anda dapat mengubah data pelamar Anda kembali <a th:href="@{/pelamar/ubah/} + ${pelamar.id}" style="color:black;">di sini</a>.</h5>
                     <a th:href="@{/}" style="font-style: italic; color: white">Kembali</a>
                 </div>
             </div>
