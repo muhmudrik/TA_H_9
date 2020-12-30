@@ -7,8 +7,11 @@ public interface UserService {
     UserModel addUser (UserModel user);
     UserModel addUser2 (String username);
     String encrypt (String password);
+    void updateUser(UserModel user);
+
     UserModel getUserByUsername(String username);
     boolean passwordMatch(String sandiBaru, String sandiLama);
     boolean passwordChecker(String sandi);
     UserModel getUserById(String id);
+
 }
