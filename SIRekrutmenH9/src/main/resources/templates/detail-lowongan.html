@@ -39,6 +39,10 @@
             <h5 class="text-center">Ubah Status Pelamar</h5>
         </div>
         <div class="row justify-content-center" style="width: 100vw;">
+            <p class="text-success" th:text="${suksesPelatihan}"></p>
+            <p class="text-danger" th:text="${gagalPelatihan}"></p>
+        </div>
+        <div class="row justify-content-center" style="width: 100vw;">
             <div class="col-4">
                 <div class="card row justify-content-center" th:each="lamaran : ${listLamaran}">
                     <div class="col-12">

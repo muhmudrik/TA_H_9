@@ -26,9 +26,6 @@ public class PelatihanDetail {
     private Integer kapasitas;
 
     @NotNull
-    private Integer jenis_pelatihan;
-
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "HH:mm")
     private Date waktu_mulai;
@@ -103,13 +100,5 @@ public class PelatihanDetail {
 
     public void setKapasitas(Integer kapasitas) {
         this.kapasitas = kapasitas;
-    }
-
-    public Integer getJenis_pelatihan() {
-        return this.jenis_pelatihan;
-    }
-
-    public void setJenis_pelatihan(Integer jenis_pelatihan) {
-        this.jenis_pelatihan = jenis_pelatihan;
     }
 }

@@ -268,10 +268,15 @@ public class LowonganController {
             out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
             latian.setWaktu_selesai(out);
 
-            latian.setJenis_pelatihan(1);
             latian.setKapasitas(lowongan.getJumlah());
             BaseResponse<PelatihanDetail> resp = pelatihanRestService.addPelatihanBaru(latian);
             System.out.println(resp.getStatus());
+            if(resp.getStatus()==200){
+                model.addAttribute("suksesPelatihan", "Sukses membuat pelatihan secara otomatis");
+            }
+            else{
+                model.addAttribute("gagalPelatihan", "Gagal Membuat pelatihan secara otomatis. Silahkan hubungi tim IT.");
+            }
         }
 
         model.addAttribute("lowongan", lowongan);

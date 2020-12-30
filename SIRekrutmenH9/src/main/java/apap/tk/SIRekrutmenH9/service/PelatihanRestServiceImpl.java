@@ -24,7 +24,7 @@ public class PelatihanRestServiceImpl implements PelatihanRestService {
     public BaseResponse<PelatihanDetail> addPelatihanBaru(PelatihanDetail pelatihanDetail) {
         return this.webClient
                 .post()
-                .uri("/api/v1/pelatihan/buat/")
+                .uri("/api/v1/pelatihan")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(pelatihanDetail)
                 .retrieve()
