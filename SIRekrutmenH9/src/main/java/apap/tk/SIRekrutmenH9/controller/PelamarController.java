@@ -78,9 +78,9 @@ public class PelamarController {
         pelamar.setAlamat(alamat);
         pelamarService.addPelamar(pelamar);
 
-        userDb.findByUsername(username).setPelamar(pelamar);
-
-        //userService.getUserByUsername(username).setPelamar(pelamar);
+        //userDb.findByUsername(username).setPelamar(pelamar);
+        userBaru.setPelamar(pelamar);
+        userService.updateUser(userBaru);
 
         model.addAttribute("pelamar", pelamar);
         return "add-pelamar";

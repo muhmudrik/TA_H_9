@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser (UserModel user){
+        userDb.save(user);
+    }
+
+    @Override
     public UserModel getUserByUsername(String username) {
         return userDb.findByUsername(username);
     }
