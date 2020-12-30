@@ -65,7 +65,7 @@
                                 </select>
                                 <input hidden th:value="*{status}">
                                 <button th:if="*{status==0 || status==1}" type="submit" class="btn btn-info">Simpan</button>
-                                <button th:if="*{status==3 && roleUser==2}" type="submit" name="hapus" class="btn btn-danger">Hapus</button>
+                                <button th:if="*{status==3}" type="submit" name="hapus" class="btn btn-danger">Hapus</button>
                             </div>
                         </form>
                     </div>

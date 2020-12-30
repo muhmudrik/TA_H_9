@@ -3,6 +3,7 @@ package apap.tk.SIRekrutmenH9.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/lowongan/daftarLowongan").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian", "Pelamar")
                 .antMatchers("/lowongan/ubahLowongan/**").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian")
                 .antMatchers("/lowongan/hapus/**").hasAnyAuthority("Kepala Departemen HR", "Kepala Bagian")
+                .antMatchers(HttpMethod.POST, "/lowongan/detail/**").hasAnyAuthority("Kepala Bagian", "Staff Rekrutmen")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
