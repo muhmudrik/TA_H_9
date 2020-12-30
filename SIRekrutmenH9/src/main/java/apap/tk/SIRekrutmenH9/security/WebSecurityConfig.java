@@ -27,7 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/pelamar/buat").permitAll()
                 .antMatchers("/lowongan/add").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian")
                 .antMatchers("/lowongan/daftarLowongan").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian", "Pelamar")
-                .antMatchers("/lowongan/ubahLowongan").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian")
+                .antMatchers("/lowongan/ubahLowongan/**").hasAnyAuthority("Kepala Departemen HR", "Staff Rekrutmen", "Kepala Bagian")
+                .antMatchers("/lowongan/hapus/**").hasAnyAuthority("Kepala Departemen HR", "Kepala Bagian")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -46,20 +47,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-            auth.inMemoryAuthentication()
-                    .passwordEncoder(encoder())
-                    .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
-                    .roles("USER");
-    }
-
 //    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//    @Autowired
-//    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//            auth.inMemoryAuthentication()
+//                    .passwordEncoder(encoder())
+//                    .withUser("sirekrutmen").password(encoder().encode("sirekrutmen"))
+//                    .roles("USER");
 //    }
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+    }
 }
 

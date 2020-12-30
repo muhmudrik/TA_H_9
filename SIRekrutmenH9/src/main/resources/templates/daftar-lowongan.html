@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<nav th:replace="fragments/fragment :: navbar('Daftar Lowongan')"></nav>
+<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
 <h2>Daftar Lowongan</h2>
 <table class="table">
     <thead>
@@ -31,6 +31,7 @@
         <td th:text="${lowongan.jenisLowongan.nama}"></td>
         <td><a th:href="@{/lowongan/detail/} + ${lowongan.id_lowongan}">Detail Lowongan</a></td>
         <td><a th:href="@{/lowongan/ubahLowongan/} + ${lowongan.id_lowongan}">Ubah Lowongan</a></td>
+        <td><a th:href="@{/lowongan/hapus/} + ${lowongan.id_lowongan}">Hapus Lowongan</a></td>
     </tr>
     <tr th:if="${roleUser == 5}" th:each="lowongan, iterationStatus : ${listLowongan}">
         <div th:if="${lowongan.user.id == uuidStaffRekrutmen}">
