@@ -39,33 +39,6 @@ public class UserController {
         return "add-user";
     }
 
-//    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
-//    public String addUserSubmit(@ModelAttribute UserModel user, Model model){
-//        userService.addUser(user);
-//        model.addAttribute("user",user);
-//        return "redirect:/";
-//    }
-
-//    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    public String addUserSubmit(@ModelAttribute PegawaiDTO pegawai,
-//                                @RequestParam("password") String password, @RequestParam String role,
-//                                RedirectAttributes redirect){
-//        System.out.println("HAAAAAA");
-//        System.out.println(role);
-//        System.out.println("HAAAAAA");
-//        UserModel user = new UserModel();
-//        long idRole = Long.parseLong(role);
-////        RoleModel role = roleService.findRoleById(pegawai.getRoleId());
-//        RoleModel thisRole = roleService.findRoleById(idRole);
-//        user.setUsername(pegawai.getUsername());
-//
-//        user.setPassword(password);
-//        user.setRole(thisRole);
-//        userService.addUser(user);
-//        pegawaiRestService.addPegawai(pegawai);
-//        return "redirect:/user/add";
-//    }
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUserSubmit(@ModelAttribute PegawaiData pegawaiData,
                                 @RequestParam("password") String password,
